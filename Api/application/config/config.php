@@ -77,7 +77,7 @@ $config['url_suffix'] = '';
 |
 */
 
-$config['language']	= (isset($_COOKIE["language"]))?$_COOKIE["language"]:'zh-cn';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
