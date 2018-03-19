@@ -50,8 +50,8 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	{
 		if(typeof newValue !="undefined" && typeof $scope.input.pot !="undefined")
 		{
-			$scope.input.i_maximum =  Math.floor(newValue/$scope.odds[$scope.input.outs]*10)/10;
-			$scope.input.percentage50 =  Math.floor(newValue/2/$scope.odds[$scope.input.outs]*10)/10;
+			$scope.input.i_maximum =  Math.floor($scope.input.pot/$scope.odds[$scope.input.outs]*10)/10;
+			$scope.input.percentage50 =  Math.floor($scope.input.pot/2/$scope.odds[$scope.input.outs]*10)/10;
 		}
 	});
 	
