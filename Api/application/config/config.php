@@ -514,20 +514,5 @@ $config['rewrite_short_tags'] = FALSE;
 | Comma-separated:	'10.0.1.200,192.168.5.0/24'
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
-$config['proxy_ips'] = '';
-$config['private_key'] = 'nmgfBxvHiRbNzRfE';
-$config['fb_app_id'] = $_SERVER['FB_APP_ID'];
-$config['fb_app_secret'] = $_SERVER['FB_APP_SECRECT'];
-$config['fb_version'] = 'v2.10';
-$config['google_map_api_key'] = 'AIzaSyA66yV4atZJx0ELMs8MFzefwk1CtqAJCJo';
-$config['sms'] = array(	
-	'username'	=>$_SERVER['SMS_USERNAME'],
-	'password'	=>md5($_SERVER['SMS_PASSWD']),
-);
-$config['website'] = array(
-	'phone' =>"+85516995371",
-	'fbfanspage' =>"https://www.facebook.com/Sihalive-187813995113064/",
-	'email'	=>"tryion@sihalive.com",
-	"domain"	=>"http://food.sihalive.com"
-);	
+
 
