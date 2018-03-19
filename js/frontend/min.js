@@ -10,6 +10,7 @@ pokerInsuranceApp.config(function($routeProvider){
 });
 var InsuranceCount = function($scope,$routeParams )
 {
+	$scope.input ={};
 	$scope.odds={
 		'1' :36,
 		'2' :18,
@@ -33,20 +34,22 @@ var InsuranceCount = function($scope,$routeParams )
 		'20' :1,
 	}
 	
-	$scope.$watch('pot', function(newValue, oldValue) {
+	$scope.$watch('input.pot', function(newValue, oldValue) {
 		if(typeof newValue !="undefined")
 		{
-			$scope.i_maximum =  newValue/$scope.odds[$scope.outs]
-			$scope.percentage50 =  newValue/2/$scope.odds[$scope.outs]
+			
+			$scope.input.i_maximum =  newValue/$scope.odds[$scope.input.outs];
+			$scope.input.percentage50 =  newValue/2/$scope.odds[$scope.input.outs];
 		}
 	});
 	
 	
-	$scope.$watch('outs', function(newValue, oldValue) {
-		if(typeof newValue !="undefined" && typeof $scope.pot !="undefined")
+	$scope.$watch('input.outs', function(newValue, oldValue)
+	{
+		if(typeof newValue !="undefined" && typeof $scope.input.pot !="undefined")
 		{
-			$scope.i_maximum =  newValue/$scope.odds[$scope.outs]
-			$scope.percentage50 =  newValue/2/$scope.odds[$scope.outs]
+			$scope.input.i_maximum =  newValue/$scope.odds[$scope.input.outs]
+			$scope.input.percentage50 =  newValue/2/$scope.odds[$scope.input.outs]
 		}
 	});
 }
