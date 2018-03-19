@@ -39,23 +39,23 @@
 			</div>
 			<div class="form-group col-md-12">
 				<label >补牌数/Outs</label>
-				<input type="number"  min="1" max="20"    ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
+				<input type="number"  min="1" max="20"   ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
 			</div>
 			<div class="form-group col-md-12">
 				<label>赔率/Odds</label>
-				<input class="form-control"  ng-model="odds[input.outs]" readonly type="text">
+				<input class="form-control"  ng-model="odds[input.outs]" placeholder="赔率/Odds" readonly type="text">
 			</div>
 			<div class="form-group col-md-12">
 				<label >底池/Pot</label>
 				<input type="number" step="0.5" min="1"    ng-model="input.pot" class="form-control" ng-disabled="input.players>3 || input.round===undefined || odds[input.outs]===undefined" placeholder="底池/Pot">
 			</div>
 			<div class="form-group col-md-12">
-				<label>上限/Insurance Maximum</label>
-				<input class="form-control" ng-model="input.i_maximum" ng-init="input.i_maximum=0" readonly type="text">
+				<label>上限/Maximum</label>
+				<input class="form-control" ng-model="input.i_maximum" placeholder="上限/Maximum" readonly type="text">
 			</div>
 			<div class="form-group col-md-12">
 				<label>保本/50 %</label>
-				<input class="form-control" ng-model="input.percentage50" ng-init="input.percentage50=0" readonly type="text">
+				<input class="form-control" ng-model="input.percentage50" placeholder="保本/50 %" readonly type="text">
 			</div>
 			<div class="form-group col-md-12">
 				<label>购买额/amount</label>
@@ -63,14 +63,67 @@
 			</div>
 			<div class="form-group col-md-12">
 				<label>保险赔注额/pay total</label>
-				<input class="form-control"  type="text" ng-model="input.payamount" readonly>
+				<input class="form-control"  type="text" ng-model="input.payamount" ng-init="input.payamount=0" readonly>
 			</div>
 			<div class="form-group col-md-12"  >
-				<input type="submit" ng-click="step2()" class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="input.amount === 0 || input.amount===null">
+				<input type="submit" ng-click="gostep(2)" class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="input.amount === 0 || input.amount===null">
 			</div>
 		</form>
 	</div>
-	<div  ng-show="step==2">
+	<div class="row" ng-show="step==2">
+		<div class="col-md-12">
+			<div class="table-responsive">          
+				<table class="table">
+					<thead>
+						<tr >
+							<th colspan="2" style="text-align: center;">确认/confirm</th>
+						</tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<td>玩家人数/All In Players</td>
+						<td ng-bind="input.players"></td>
+					  </tr>
+					  <tr>
+						<td>下注圈/Betting Round</td>
+						<td ng-bind="input.round"></td>
+					  </tr>					  
+					  <tr>
+						<td>赔率/Odds</td>
+						<td ng-bind="input.outs"></td>
+					  </tr>	
+					  <tr>
+						<td>补牌数/Outs</td>
+						<td ng-bind="odds[input.outs]"></td>
+					  </tr>					  
+					  <tr>
+						<td>底池/Pot</td>
+						<td ng-bind="input.pot"></td>
+					  </tr>
+					  <tr>
+						<td>上限/Maximum</td>
+						<td ng-bind="input.i_maximum"></td>
+					  </tr>
+					  <tr>
+						<td>购买额/amount</td>
+						<td ng-bind="input.amount"></td>
+					  </tr>			 
+					  <tr>
+						<td>保险赔注额/pay total</td>
+						<td ng-bind="input.payamount"></td>
+					  </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="form-group col-6"  >
+			<input type="submit" ng-click="gostep(3)" class="col-12 btn btn-info" value="是/Yes" >
+		</div>
+		<div class="form-group col-6"  >
+			<input type="submit" ng-click="gostep(1)" class="col-12 btn btn-info" value="否/No" >
+		</div>
+	</div>
+	<div  ng-show="step==3">
 		<form  class="form-row">
 			<div class="form-group col-md-12">
 				<label >结果/result</label>

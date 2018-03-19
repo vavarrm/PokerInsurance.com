@@ -48,8 +48,10 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	
 	$scope.$watch('input.outs', function(newValue, oldValue)
 	{
+		
 		if(typeof newValue !="undefined" && typeof $scope.input.pot !="undefined")
 		{
+	
 			$scope.input.i_maximum =  Math.floor($scope.input.pot/$scope.odds[$scope.input.outs]*10)/10;
 			$scope.input.percentage50 =  Math.floor($scope.input.pot/2/$scope.odds[$scope.input.outs]*10)/10;
 		}
@@ -69,23 +71,18 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				dialog(obj);
 			}else
 			{
-				$scope.input.payamount=newValue*$scope.odds[$scope.input.outs];
+				$scope.input.payamount=Math.floor(newValue*$scope.odds[$scope.input.outs]*10)/10;
+				if(isNaN($scope.input.payamount))
+				{
+					$scope.input.payamount =0;
+				}
 			}
 		}
 
 	});
 	
 	$scope.save = function()
-	{
-		if($scope.input.amount >$scope.input.i_maximum)
-		{
-			var obj =
-			{
-				'message' :'超出购卖额度上限/over maximum',
-			};
-			dialog(obj);
-		}
-		
+	{	
 		if($scope.ajaxload == true)
 		{
 			$scope.input.amount = oldValue;	
@@ -128,12 +125,18 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		
 	}
 	
-	$scope.step2 = function()
+	
+	
+	$scope.gostep = function(step)
 	{
-		
 		$(window).scrollTop(0);
-		$scope.step =2;
+		if(step==2)
+		{
+			$scope.save();
+		}
+		$scope.step =step;
 	}
+	
 }
 pokerInsuranceApp.controller('InsuranceCount',  ['$scope' ,'$routeParams', 'apiService', InsuranceCount]);
 
