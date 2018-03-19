@@ -33,10 +33,20 @@ var InsuranceCount = function($scope,$routeParams )
 		'20' :1,
 	}
 	
-	$scope.$watch('pot', function(oldValue,newValue) {
-		if(typeof oldValue !="undefined")
+	$scope.$watch('pot', function(newValue, oldValue) {
+		if(typeof newValue !="undefined")
 		{
-			console.log()
+			$scope.i_maximum =  newValue/$scope.odds[$scope.outs]
+			$scope.percentage50 =  newValue/2/$scope.odds[$scope.outs]
+		}
+	});
+	
+	
+	$scope.$watch('outs', function(newValue, oldValue) {
+		if(typeof newValue !="undefined" && typeof $scope.pot !="undefined")
+		{
+			$scope.i_maximum =  newValue/$scope.odds[$scope.outs]
+			$scope.percentage50 =  newValue/2/$scope.odds[$scope.outs]
 		}
 	});
 }

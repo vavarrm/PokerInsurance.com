@@ -1,6 +1,6 @@
 <main role="main" class="container">
 	<form  class="form-row">
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-12">
 			<label >玩家人数/All In Players</label>
 			<div class="form-check">
 				<input class="form-check-input" ng-model="players" type="radio" name="players"  value="2">
@@ -21,38 +21,38 @@
 				</label>
 			</div>
 		</div>
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-12">
 			<label >下注圈/Betting Round</label>
 			<div class="form-check">
-				<input class="form-check-input" ng-model="round" type="radio" ng-disabled="players>3" name="round"  value="flop">
+				<input class="form-check-input" ng-model="round" type="radio" ng-disabled="players>3 || players===undefined" name="round"  value="flop">
 				<label class="form-check-label" >
 					翻牌/flop
 				</label>
 			</div>
 			<div class="form-check">
-				<input class="form-check-input" type="radio" ng-model="round" ng-disabled="players>3"  name="round"  value="turn">
+				<input class="form-check-input" type="radio" ng-model="round" ng-disabled="players>3 || players===undefined""  name="round"  value="turn">
 				<label class="form-check-label" >
 					转牌/turn
 				</label>
 			</div>
 		</div>
-		<div class="form-group col-md-6">
-			<label >补牌数/Outs</label>{{round}}
-			<input type="number"  min="1" max="20" ng-model="outs" class="form-control" ng-disabled="players>3 || round==''" placeholder="补牌数/Outs">
+		<div class="form-group col-md-12">
+			<label >补牌数/Outs</label>
+			<input type="number"  min="1" max="20" ng-model="outs" class="form-control" ng-disabled="players>3 || round===undefined" placeholder="补牌数/Outs">
 		</div>
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-12">
 			<label>赔率/Odds</label>
 			<input class="form-control"  ng-model="odds[outs]" readonly type="text">
 		</div>
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-12">
 			<label >底池/Pot</label>
-			<input type="number" step="0.1" min="1"  ng-model="pot" class="form-control" ng-disabled="players>3" placeholder="底池/Pot">
+			<input type="number" step="0.1" min="1"  ng-model="pot" class="form-control" ng-disabled="players>3 || round===undefined || odds[outs]===undefined" placeholder="底池/Pot">
 		</div>
-		<div class="form-group col-md-3">
+		<div class="form-group col-md-12">
 			<label>保額上限/Insurance Maximum</label>
-			<input class="form-control" ng-model="maximum" ng-init="maximum=0" readonly type="text">
+			<input class="form-control" ng-model="i_maximum" ng-init="i_maximum=0" readonly type="text">
 		</div>
-		<div class="form-group col-md-3">
+		<div class="form-group col-md-12">
 			<label>保本/50 %</label>
 			<input class="form-control" ng-model="percentage50" ng-init="percentage50=0" readonly type="text">
 		</div>
