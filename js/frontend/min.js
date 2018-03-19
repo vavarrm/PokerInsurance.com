@@ -130,6 +130,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	
 	$scope.step2 = function()
 	{
+		
 		$(window).scrollTop(0);
 		$scope.step =2;
 	}
