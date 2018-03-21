@@ -47,7 +47,7 @@ class AdminApi extends CI_Controller {
 	
 	public function logout()
 	{
-		unset($_SESSION['encrypt_admin_user_data']);
+		$this->session->unset_userdata('encrypt_admin_user_data');
 		$this->myfunc->gotoUrl('/admin/login.html','logout ok');
 	}
 	
@@ -99,7 +99,7 @@ class AdminApi extends CI_Controller {
 				'account'  =>$admin_user['ad_account'],
 			);
 			$encrypt_user_data = $this->token->AesEncrypt(serialize($data), $randomKey);
-			$_SESSION['encrypt_admin_user_data'] = $encrypt_user_data;
+			$this->session->set_userdata('encrypt_admin_user_data', $encrypt_user_data);
 			$urlRsaRandomKey = urlencode($rsaRandomKey) ;
 			return $urlRsaRandomKey ;
 		}catch(MyException $e)

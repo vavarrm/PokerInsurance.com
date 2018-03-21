@@ -1,5 +1,4 @@
 <?php
-session_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Api extends CI_Controller {
 	
@@ -9,7 +8,7 @@ class Api extends CI_Controller {
 	{
 		parent::__construct();	
 		$this->load->model('User_Model', 'user');
-		
+		$newdata= array('d');
 		$this->request = json_decode(trim(file_get_contents('php://input'), 'r'), true);
 		$this->get = $this->input->get();
 		$this->post = $this->input->post();
@@ -57,7 +56,6 @@ class Api extends CI_Controller {
 			{
 				$urlRsaRandomKey =$get['sess'];
 			}
-			
 			$encrypt_user_data = $_SESSION['encrypt_user_data'] ;
 			$decrypt_user_data= $this->myfunc->decryptUser($urlRsaRandomKey, $encrypt_user_data);
 			
@@ -72,6 +70,28 @@ class Api extends CI_Controller {
 			}
 			$user_data = $this->user->getUserForId($decrypt_user_data['u_id']);
 			$output['body']['user_data'] =$user_data  ;
+		}catch(MyException $e)
+		{
+			$parames = $e->getParams();
+			$parames['class'] = __CLASS__;
+			$parames['function'] = __function__;
+			$parames['message'] =  $this->response_code[$parames['status']]; 
+			$output['message'] = $parames['message']; 
+			$output['status'] = $parames['status']; 
+			$this->myLog->error_log($parames);
+		}
+		$this->myfunc->response($output);
+	}
+	
+	public function logout()
+	{
+		$output['body']=array();
+		$output['status'] = '200';
+		$output['title'] ='登出';
+		try 
+		{
+			$this->session->unset_userdata('encrypt_user_data');
+				
 		}catch(MyException $e)
 		{
 			$parames = $e->getParams();
@@ -135,7 +155,7 @@ class Api extends CI_Controller {
 				'expire'	=>time()+86400*3
 			);
 			$encrypt_user_data = $this->token->AesEncrypt(serialize($data), $randomKey);
-			$_SESSION['encrypt_user_data'] = $encrypt_user_data;
+			$this->session->set_userdata('encrypt_user_data', $encrypt_user_data);
 			$urlRsaRandomKey = urlencode($rsaRandomKey) ;
 			$output['body']['user_sess'] = $urlRsaRandomKey ;
 			

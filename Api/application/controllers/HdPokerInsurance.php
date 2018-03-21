@@ -25,16 +25,17 @@ class HdPokerInsurance extends CI_Controller {
 			if($checkUser !="200")
 			{
 				$array = array(
-					'status'	=>$checkAdmin
+					'status'	=>'000'
 				);
 				$MyException = new MyException();
 				$MyException->setParams($array);
 				throw $MyException;
 			}
-			
-			$encrypt_user_data = $_SESSION['encrypt_user_data'] ;
+
+			$encrypt_user_data  = $this->session->userdata('encrypt_user_data');
 			$decrypt_user_data= $this->myfunc->decryptUser($this->get['sess'], $encrypt_user_data);
 			$this->user_data = $decrypt_user_data;
+			
 			
 		}catch(MyException $e)
 		{
@@ -234,7 +235,7 @@ class HdPokerInsurance extends CI_Controller {
 				'outs'=>$outs,
 				'odds'=>$odds,
 				'pot'=>$pot,
-				'round'=>$pot,
+				'round'=>$round ,
 				'maximun'=>$i_maximum,
 				'maximun_p50'=>$percentage50,
 				'amount'=>$amount,
@@ -242,7 +243,7 @@ class HdPokerInsurance extends CI_Controller {
 				'pay'=>$payamount
 			);
 			
-			$output['body']['order_id'] = $this->order->insert($ary);
+			$output['body'] = $this->order->insert($ary);
 			
 			// if($players )
 		}catch(MyException $e)

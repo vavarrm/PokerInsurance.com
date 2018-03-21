@@ -76,7 +76,7 @@
 					<table  class="table table-striped table-bordered bulk_action dataTable no-footer">
 						<thead>
 							<tr role="row">
-								<th class="sorting" ng-class="data.table_order[filed] == 'DESC'?'sorting_desc':(data.table_order[filed] == 'ASC' ? 'sorting_asc':'')" ng-click="order(filed);" ng-repeat="(filed,value) in data.table_fields" ng-bind="filed" ></th>
+								<th class="sorting" ng-class="data.table_order[filed] == 'DESC'?'sorting_desc':(data.table_order[filed] == 'ASC' ? 'sorting_asc':'')" ng-click="order(filed);" ng-repeat="(filed,value) in data.table_fields" ng-bind="value.AS" ></th>
 								<th></th>
 							</tr>
 						</thead>

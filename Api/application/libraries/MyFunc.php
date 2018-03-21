@@ -5,6 +5,7 @@ class MyFunc
 	public function __construct() 
 	{
 		$this->CI =& get_instance();
+		$this->CI->load->model('AdminUser_Model', 'admin_user');
 	}
 	public function readJson($parameter = array())
 	{
@@ -121,7 +122,7 @@ class MyFunc
 	public function getAdminUser($sess)
 	{
 		$urlRsaRandomKey =$sess;
-		$encrypt_data = $_SESSION['encrypt_admin_user_data'] ;
+		$encrypt_data = $this->CI->session->userdata('encrypt_admin_user_data');
 		$decrypt_data= $this->decryptUser($urlRsaRandomKey, $encrypt_data);
 		return $decrypt_data;
 	}
@@ -165,7 +166,7 @@ class MyFunc
 	public function getUser($sess)
 	{
 		$urlRsaRandomKey =$sess;
-		$encrypt_data = $_SESSION['encrypt_user_data'] ;
+		$encrypt_data = $this->CI->session->userdata('encrypt_user_data');
 		$decrypt_data= $this->decryptUser($urlRsaRandomKey, $encrypt_data);
 		return $decrypt_data;
 	}

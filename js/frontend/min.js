@@ -12,28 +12,9 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 {
 	$scope.ajaxload = false;
 	$scope.input ={};
-	$scope.odds={
-		'1' :36,
-		'2' :18,
-		'3' :12,
-		'4' :8.5,
-		'5' :6.5,
-		'6' :5.5,
-		'7' :4.5,
-		'8' :3.8,
-		'9':3.3,
-		'10' :2.8,
-		'11' :2.5,
-		'12' :2.2,
-		'13' :2,
-		'14' :1.8,
-		'15' :1.5,
-		'16' :1.4,
-		'17' :1.3,
-		'18' :1.2,
-		'19' :1.1,
-		'20' :1,
-	};
+	$scope.odds={};
+	
+
 	
 	$scope.init = function()
 	{
@@ -95,7 +76,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	
 	$scope.check_user_code = function()
 	{
-		if(typeof $scope.input.ucode.length=="undefined" && $scope.input.ucode.length != 6)
+		if(typeof $scope.input.ucode.length=="undefined" || $scope.input.ucode.length != 6)
 		{
 			return false;
 		}
@@ -267,6 +248,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				if(r.data.status =="200")
 				{
 					$scope.input.order_id =r.data.body.order_id;
+					$scope.input.order_number =r.data.body.order_number;
 					$scope.step=3;
 				
 				}else
@@ -342,9 +324,84 @@ pokerInsuranceApp.controller('LoginCtrl',  ['$scope' ,'$routeParams', 'apiServic
 
 
 
-var bodyCtrl = function($scope ,$routeParams, apiService)
+var bodyCtrl = function($scope ,$routeParams, apiService, $cookies)
 {
 	$scope.user={};
+	$scope.logout = function()
+	{
+		if($scope.ajaxload == true)
+		{
+			var obj =
+			{
+				'message' :'系统忙禄中/system busy',
+			};
+			dialog(obj);
+			return false;
+		}
+		var obj =
+		{
+			'message'  :'确认登出/confirm logout',
+			buttons: 
+			[
+				{
+					text: "yes",
+					click: function() 
+					{
+						$scope.ajaxload = true;		
+						var obj = {};
+						var promise = apiService.Api('/Api/Api/logout', obj);
+						promise.then
+						(
+							function(r) 
+							{
+								$scope.ajaxload = false;
+								if(r.data.status =="200")
+								{
+									$cookies.remove("usess");
+									location.href="/login.html"
+								}else
+								{
+									
+									var obj =
+									{
+										'message' :r.data.message,
+										buttons: 
+										[
+											{
+												text: "close",
+												click: function() 
+												{
+													$( this ).dialog( "close" );
+													location.href="/login.html"
+												}
+											}
+										]
+									};
+									dialog(obj);
+								}
+								
+							},
+							function() {
+								$scope.ajaxload = false;
+								var obj ={
+									'message' :'system error'
+								};
+								dialog(obj);
+							}
+						)
+					}
+				},
+				{
+					text: "no",
+					click: function() 
+					{
+						$( this ).dialog( "close" );
+					}
+				},
+			]
+		};
+		dialog(obj);
+	}
 	$scope.init = function()
 	{
 		
@@ -375,19 +432,13 @@ var bodyCtrl = function($scope ,$routeParams, apiService)
 					var obj =
 					{
 						'message' :r.data.message,
-						buttons: 
-						[
-							{
-								text: "close",
-								click: function() 
-								{
-									$( this ).dialog( "close" );
-									location.href="/login.html"
-								}
-							}
-						]
+						open :function()
+						{
+							setTimeout("location.href='/login.html'",1000)
+						}
 					};
 					dialog(obj);
+					return false;
 				}
 				
 			},
@@ -401,7 +452,7 @@ var bodyCtrl = function($scope ,$routeParams, apiService)
 		)
 	}
 }
-pokerInsuranceApp.controller('bodyCtrl',  ['$scope' ,'$routeParams', 'apiService', bodyCtrl]);
+pokerInsuranceApp.controller('bodyCtrl',  ['$scope' ,'$routeParams', 'apiService','$cookies', bodyCtrl]);
 
 var apiService = function($http,$cookies)
 {

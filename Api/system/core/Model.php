@@ -86,7 +86,7 @@ class CI_Model {
 			{
 				$MyException = new MyException();
 				$array = array(
-					'system_error' 	=>'limit zero',
+					'el_system_error' 	=>'limit zero',
 					'status'	=>'000'
 				);
 				
@@ -98,7 +98,7 @@ class CI_Model {
 			{
 				$MyException = new MyException();
 				$array = array(
-					'system_error' 	=>'no setting sql',
+					'el_system_error' 	=>'no setting sql',
 					'status'	=>'000'
 				);
 				
@@ -163,7 +163,7 @@ class CI_Model {
 			{
 				$MyException = new MyException();
 				$array = array(
-					'system_error' 	=>$error['message'] ,
+					'el_system_error' 	=>$error['message'] ,
 					'status'	=>'000'
 				);
 				
@@ -192,7 +192,7 @@ class CI_Model {
 			{
 				$MyException = new MyException();
 				$array = array(
-					'system_error' 	=>$error['message'] ,
+					'el_system_error' 	=>$error['message'] ,
 					'status'	=>'000'
 				);
 				

@@ -6,6 +6,19 @@
 			
 			parent::__construct();
 			$this->load->database();
+			$query = $this->db->query("set time_zone = '+7:00'");
+			$error = $this->db->error();
+			if($error['message'] !="")
+			{
+				$MyException = new MyException();
+				$array = array(
+					'el_system_error' 	=>"set time_zone error" ,
+					'status'	=>'000'
+				);
+				
+				$MyException->setParams($array);
+				throw $MyException;
+			}
 		}
 		
 		public function updataResult($ary)
@@ -55,11 +68,45 @@
 			}
 		}
 		
-		public function insert($ary)
+		public function getOrderNumber()
 		{
-			
 			try
 			{
+				$sql ="SELECT 
+							CONCAT(DATE_FORMAT(NOW(),'%Y%m%d'),
+							LPAD((SELECT COUNT(*) AS total FROM `texasholdem_insurance_order` 
+									WHERE DATE_FORMAT(add_datetime,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d') ) + 1,8,0),
+							LPAD(FLOOR(1 + (RAND() * 9999)),4,0)) AS order_number";
+				$query = $this->db->query($sql);
+				$error = $this->db->error();
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				$row =$query->row_array();
+				$query->free_result();
+				return $row['order_number'];
+			}catch(MyException $e)
+			{
+				
+				throw $e;
+			}
+		}
+		
+		public function insert($ary)
+		{
+			$output = array();
+			try
+			{
+				$order_number = $this->getOrderNumber();
+				$this->db->trans_begin();
 				$sql ="	INSERT texasholdem_insurance_order(
 							round,
 							outs,
@@ -69,8 +116,9 @@
 							maximun_p50,
 							buy_amount,
 							u_id,
-							insured_amount
-						)VALUES(?,?,?,?,?,?,?,?,?)";
+							insured_amount,
+							order_number
+						)VALUES(?,?,?,?,?,?,?,?,?,?)";
 				$bind =array(
 					$ary['round'],
 					$ary['outs'],
@@ -80,7 +128,8 @@
 					$ary['maximun_p50'],
 					$ary['amount'],
 					$ary['u_id'],
-					$ary['pay']
+					$ary['pay'],
+					$order_number 
 				);
 				
 				$this->db->query($sql, $bind);
@@ -109,10 +158,52 @@
 					$MyException->setParams($array);
 					throw $MyException;
 				}
-				$order_id =  $this->db->insert_id();	
-				return $order_id;
+				$order_id =  $this->db->insert_id();
+				
+				$this->db->trans_commit();
+				$output['order_id'] =$order_id;
+				$output['order_number'] =$order_number;
+				return $output ;
 			}	
 			catch(MyException $e)
+			{
+				$this->db->trans_rollback();
+				throw $e;
+			}
+		}
+		
+		public function getList($ary)
+		{
+			try
+			{
+				if(empty($ary))
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>'no setParams' ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				if(!empty($ary['fields']))
+				{
+					foreach($ary['fields'] as $value)
+					{
+						$temp[] = $value['field'];
+					}
+				}
+				
+				$fields = join(',' ,$temp);
+				$sql ="	SELECT order_id AS id," 
+						.$fields.	
+						" FROM
+							texasholdem_insurance_order AS o";
+				$ary['sql'] =$sql;
+				$output = $this->getListFromat($ary);
+				return 	$output  ;
+			}catch(MyException $e)
 			{
 				throw $e;
 			}
