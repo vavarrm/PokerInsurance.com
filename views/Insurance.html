@@ -63,7 +63,7 @@
 			</div>
 			<div class="form-group col-md-12">
 				<label>保额/insured amount</label>
-				<input class="form-control"  type="text" placeholder="保额/insured amount" ng-model="input.payamount" ng-init="input.payamount=0" readonly disabled>
+				<input class="form-control"  type="text" placeholder="保额/insured amount" ng-model="input.insuredamount" ng-init="input.insuredamount=0" readonly disabled>
 			</div>
 			<div class="form-group col-md-12"  >
 				<input type="submit" ng-click="step=2;goTop();" class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="input.amount === 0 || input.amount===null">
@@ -110,7 +110,7 @@
 					  </tr>			 
 					  <tr>
 						<td>保额/insured amount</td>
-						<td ng-bind="input.payamount"></td>
+						<td ng-bind="input.insuredamount"></td>
 					  </tr> 
 					  <tr>
 						<td colspan="2">
@@ -144,10 +144,13 @@
 						未支付/no pay
 					</label>
 				</div>
-				
+			</div>
+			<div class="form-group col-md-12">
+				<label>賠付额/pay amount</label>
+				<input class="form-control" ng-model="input.payamount" placeholder="賠付额/pay amount" ng-disabled="input.result ===undefined " type="number">
 			</div>
 			<div class="form-group col-md-12" >
-				<input type="submit" ng-click="update_result()" class="col-md-12 btn btn-info" value="储存/save" ng-disabled="step !=3 || input.result===null || input.result===undefined ">
+				<input type="submit" ng-click="update_result()"  class="col-md-12 btn btn-info" value="储存/save" ng-disabled="step !=3 || input.result===null || input.result===undefined ">
 			</div>
 		</form>
 	</div>

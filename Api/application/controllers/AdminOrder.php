@@ -87,13 +87,19 @@ class AdminOrder extends CI_Controller {
 			$action_list = $this->admin_user->getAdminListAction($temp);
 		
 			$ary['fields'] = array(
-				'order_id'			=>array('field'=>'o.order_id','AS' =>'订单号'),
 				'order_number'		=>array('field'=>'o.order_number','AS' =>'订单編號'),
-				'round'				=>array('field'=>'o.round','AS' =>''),
-				'order_id'			=>array('field'=>'o.order_id','AS' =>'订单号'),
-				'order_id'			=>array('field'=>'o.order_id','AS' =>'订单号'),
-				'order_id'			=>array('field'=>'o.order_id','AS' =>'订单号'),
-				'order_id'			=>array('field'=>'o.order_id','AS' =>'订单号'),
+				'round'				=>array('field'=>'o.round','AS' =>'下注圈'),
+				'players'			=>array('field'=>'o.players','AS' =>'玩家人数'),
+				'outs'				=>array('field'=>'o.outs','AS' =>'补牌数'),
+				'odds'				=>array('field'=>'o.odds','AS' =>'赔率'),
+				'pot'				=>array('field'=>'o.pot','AS' =>'底池'),
+				'maximun'			=>array('field'=>'o.maximun','AS' =>'保金上限'),
+				'buy_amount'		=>array('field'=>'o.buy_amount','AS' =>'保金'),
+				'insured_amount'	=>array('field'=>'o.insured_amount','AS' =>'保额'),
+				'result'			=>array('field'=>'o.result','AS' =>'结果'),
+				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'赔附额'),
+				'income'			=>array('field'=>'(o.buy_amount - pay_amount) AS income ','AS' =>'收入'),
+				'complete'			=>array('field'=>'o.complete','AS' =>'是否完成'),
 			);
 			$list = $this->order->getList($ary);
 			

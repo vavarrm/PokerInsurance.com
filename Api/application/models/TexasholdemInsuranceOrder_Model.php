@@ -26,14 +26,15 @@
 			try
 			{
 				$sql ="	UPDATE texasholdem_insurance_order
-						SET result =? , pay_amount =?
-						WHERE u_id =? AND order_id=?
+						SET result =? , pay_amount =? , complete =1
+						WHERE u_id =? AND order_id=? AND order_number =? AND complete = 0
 						";
 				$bind =array(
 					$ary['result'],
 					$ary['payamount'],
 					$ary['u_id'],
 					$ary['order_id'],
+					$ary['order_number'],
 				);
 				$this->db->query($sql, $bind);
 				$error = $this->db->error();
@@ -117,8 +118,9 @@
 							buy_amount,
 							u_id,
 							insured_amount,
-							order_number
-						)VALUES(?,?,?,?,?,?,?,?,?,?)";
+							order_number,
+							players
+						)VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 				$bind =array(
 					$ary['round'],
 					$ary['outs'],
@@ -129,7 +131,8 @@
 					$ary['amount'],
 					$ary['u_id'],
 					$ary['pay'],
-					$order_number 
+					$order_number ,
+					$ary['players']
 				);
 				
 				$this->db->query($sql, $bind);

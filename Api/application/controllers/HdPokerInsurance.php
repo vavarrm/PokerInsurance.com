@@ -131,6 +131,7 @@ class HdPokerInsurance extends CI_Controller {
 		try 
 		{
 			$order_id = (isset($this->request['order_id']))?$this->request['order_id']:'';
+			$order_number = (isset($this->request['order_number']))?$this->request['order_number']:'';
 			$result = (isset($this->request['result']))?$this->request['result']:'';
 			$payamount = (isset($this->request['payamount']))?$this->request['payamount']:0;
 			$pot = (isset($this->request['pot']))?$this->request['pot']:0;
@@ -139,8 +140,8 @@ class HdPokerInsurance extends CI_Controller {
 			if(
 				$order_id=="" ||
 				($result !="pay"  && $result!="nopay")||
-				$amount >$i_maximum ||
-				$payamount >$pot 
+				$payamount >$pot  ||
+				$amount >$i_maximum
 			)
 			{
 				$array = array(
@@ -160,7 +161,8 @@ class HdPokerInsurance extends CI_Controller {
 				'result'	=>$result,
 				'order_id'	=>$order_id,
 				'u_id'		=>$this->user_data['u_id'],
-				'payamount'	=>$payamount
+				'payamount'	=>$payamount,
+				'order_number'	=>$order_number,
 			);
 			$check = $this->order->updataResult($ary);
 			$output['body']['check']=$check ['total'];
@@ -189,7 +191,7 @@ class HdPokerInsurance extends CI_Controller {
 			$players = (isset($this->request['players']))?intval($this->request['players']):0;
 			$outs = (isset($this->request['outs']))?intval($this->request['outs']):0;
 			$odds = (isset($this->request['odds']))?$this->request['odds']:0;
-			$payamount = (isset($this->request['payamount']))?$this->request['payamount']:0;
+			$insuredamount = (isset($this->request['insuredamount']))?$this->request['insuredamount']:0;
 			$pot = (isset($this->request['pot']))?$this->request['pot']:0;
 			$amount = (isset($this->request['amount']))?$this->request['amount']:0;
 			$i_maximum = (isset($this->request['i_maximum']))?$this->request['i_maximum']:0;
@@ -210,14 +212,14 @@ class HdPokerInsurance extends CI_Controller {
 				$players >4 ||
 				$outs <1  ||  $outs>20 ||
 				$odds ==0 ||
-				$payamount ==0 ||
+				$insuredamount ==0 ||
 				$pot ==0 ||
 				$amount ==0 ||
 				$i_maximum ==0 ||
 				$percentage50 ==0 ||
 				($round !="flop" && $round!="turn") ||
 				$amount >$i_maximum ||
-				$payamount >$pot ||
+				$insuredamount >$pot ||
 				$check['total'] != '1'||
 				$_odds['odds_value'] !=$odds
 			){
@@ -240,7 +242,8 @@ class HdPokerInsurance extends CI_Controller {
 				'maximun_p50'=>$percentage50,
 				'amount'=>$amount,
 				'u_id'=>$this->user_data['u_id'],
-				'pay'=>$payamount
+				'pay'=>$insuredamount,
+				'players' =>$players
 			);
 			
 			$output['body'] = $this->order->insert($ary);

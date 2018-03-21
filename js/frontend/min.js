@@ -65,6 +65,30 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		}
 		
 	});
+	
+	$scope.$watch('input.result', function(newValue, oldValue) {
+		if(typeof newValue !="undefined")
+		{
+			if(newValue =="pay")
+			{
+				$scope.input.payamount =$scope.input.insuredamount;
+			}else{
+				$scope.input.payamount = 0;
+			}
+		}
+		
+	});
+	
+	$scope.$watch('input.payamount', function(newValue, oldValue) {
+		if(typeof newValue !="undefined")
+		{
+			if(newValue > $scope.input.pot)
+			{
+				$scope.input.payamount = oldValue;
+				return false;
+			}
+		}
+	});
 	// $scope.step=2;
 	
 	$scope.check_user_code = function()
@@ -152,10 +176,10 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				dialog(obj);
 			}else
 			{
-				$scope.input.payamount=Math.floor(newValue*$scope.odds[$scope.input.outs]*10)/10;
-				if(isNaN($scope.input.payamount))
+				$scope.input.insuredamount=Math.floor(newValue*$scope.odds[$scope.input.outs]*10)/10;
+				if(isNaN($scope.input.insuredamount))
 				{
-					$scope.input.payamount =0;
+					$scope.input.insuredamount =0;
 				}
 			}
 		}

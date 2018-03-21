@@ -655,7 +655,7 @@ adminApp.factory('apiService', ['$http', '$cookies', apiService]);
 adminApp.config(function($routeProvider){
 	$routeProvider.when("/",{
 		templateUrl: function(params) {
-			return 'views/';
+			// return 'views/';
 		},
 		controller: 'MainController'
     }).when("/formAdd/:controller/:func/:page/:tabindex/:pe_id/:id",{
