@@ -8,173 +8,46 @@
 			$this->load->database();
 		}
 		
-		public function getMenu()
-		{
-			$sql="SELECT * FROM  permissions";
-		}
-		
-		
-		public function del($ary)
+		public function updataResult($ary)
 		{
 			try
 			{
-				if(empty($ary))
-				{
-					$MyException = new MyException();
-					$array = array(
-						'message' 	=>$error['message'] ,
-						'status'	=>'000'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-					
-				$bind = array(
-					$ary['ad_id']
-				);
-				
-				$sql ="SELECT  ad_ar_id FROM admin_user WHERE ad_id = ?";
-				$query = $this->db->query($sql, $bind);
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'000'
-					);			
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				$row = $query->row_array();
-				$query->free_result();
-				if($row['ad_ar_id'] =='1')
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'017'
-					);			
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-			
-				$sql="DELETE FROM admin_user WHERE ad_id=?";
-				$this->db->query($sql, $bind); 
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>$status
-					);			
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-			}catch(MyException $e){
-				throw $e;
-			}
-		}
-		
-		public function  insert($ary)
-		{
-			$output= array(
-			'affected_rows'	=>0
-			);
-			try
-			{
-				$this->db->trans_begin();
-				if(empty($ary))
-				{
-					$MyException = new MyException();
-					$array = array(
-						'message' 	=>$error['message'] ,
-						'status'	=>'000'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				$sql ="INSERT INTO admin_user (ad_account, ad_passwd, ad_ar_id)
-					  VALUES (?,MD5(?),?)";
-				$bind = array(
-					$ary['ad_account'],
-					$ary['ad_passwd'],
-					$ary['ad_ar_id'],
-				);
-				$this->db->query($sql, $bind); 
-				$output['affected_rows'] += $this->db->affected_rows();
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					
-					$status = '000';
-					if($error['code'] == '1062')
-					{
-						$status = '015';
-					}else if($error['code'] == '1452')
-					{
-						$status = '016';
-					}
-					
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>$status
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				
-				$this->db->trans_commit();
-				return $output;
-				
-			}catch(MyException $e)
-			{
-				$this->db->trans_rollback();
-				throw $e;
-			}
-		}
-		
-		public function getAdminByAccount($account)
-		{
-			
-			try
-			{
-			
-				$sql =" SELECT 
-							ad_id, 
-							ad_account, 
-							ad_passwd ,
-							ad_ar_id ,
-							ad_status
-						FROM admin_user 
-						WHERE ad_account =?";
+				$sql ="	UPDATE texasholdem_insurance_order
+						SET result =? , pay_amount =?
+						WHERE u_id =? AND order_id=?
+						";
 				$bind =array(
-					$account
+					$ary['result'],
+					$ary['payamount'],
+					$ary['u_id'],
+					$ary['order_id'],
 				);
-				$query = $this->db->query($sql, $bind);
+				$this->db->query($sql, $bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
 				{
 					$MyException = new MyException();
 					$array = array(
 						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
+						'status'	=>'000'
 					);
 					
 					$MyException->setParams($array);
 					throw $MyException;
 				}
-				$row = $query->row_array();
-				$query->free_result();
-				return $row;
+				
+				$affected_rows = $this->db->affected_rows();
+				if($affected_rows==0)
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'004'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
 			}	
 			catch(MyException $e)
 			{
@@ -182,348 +55,62 @@
 			}
 		}
 		
-		public function getAdminListAction($ary)
+		public function insert($ary)
 		{
-			try
-			{
-				$sql ="	SELECT 
-							per.pe_name,
-							per.pe_func,
-							per.pe_id,
-							per.pe_control,
-							per.pe_page
-						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
-							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
-						WHERE per.pe_parents_id = ? AND au.ad_id=? AND pe_type ='action'";
-				$bind = array(
-					$ary['pe_id'],
-					$ary['ad_id']
-				);
-				$query = $this->db->query($sql, $bind);
-				// echo $this->db->last_query();
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				$rows = $query->result_array();
-				return $rows;
-			}catch(MyException $e)
-			{
-				throw $e;
-			}
-		}
-		
-		public function getAdminPermissions($ary)
-		{
-			try
-			{
-				$sql ="	SELECT 
-							per.pe_name,
-							per.pe_func,
-							per.pe_id,
-							per.pe_control,
-							per.pe_page
-						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
-							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
-						WHERE per.pe_id = ? AND au.ad_id=?";
-				$bind = array(
-					$ary['pe_id'],
-					$ary['ad_id']
-				);
-				$query = $this->db->query($sql, $bind);
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				$row = $query->row_array();
-				return $row;
-			}catch(MyException $e)
-			{
-				throw $e;
-			}
-		}
-		
-		public function resetPassword($ary)
-		{
-			$output= array(
-			'affected_rows'	=>0
-			);
-			try
-			{
-				$this->db->trans_begin();
-				if(empty($ary))
-				{
-					$MyException = new MyException();
-					$array = array(
-						'message' 	=>$error['message'] ,
-						'status'	=>'000'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				$sql ="UPDATE admin_user SET ad_passwd = MD5(?) WHERE ad_id =?";
-				$bind = array(
-					$ary['ad_passwd'],
-					$ary['ad_id'],
-				);
-				$this->db->query($sql, $bind); 
-				$output['affected_rows'] += $this->db->affected_rows();
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{	
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>$status
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				
-				$this->db->trans_commit();
-				return $output;
-				
-			}catch(MyException $e)
-			{
-				$this->db->trans_rollback();
-				throw $e;
-			}
-		}
-		
-		public function setLock($ary)
-		{
-			$output= array(
-				'affected_rows'	=>0
-			);
-			try
-			{
-				$this->db->trans_begin();
-				if(empty($ary))
-				{
-					$MyException = new MyException();
-					$array = array(
-						'message' 	=>$error['message'] ,
-						'status'	=>'000'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				$sql ="UPDATE admin_user SET ad_status = ? WHERE ad_id =?";
-				$bind = array(
-					$ary['ad_status'],
-					$ary['ad_id'],
-				);
-				$this->db->query($sql, $bind); 
-				$output['affected_rows'] += $this->db->affected_rows();
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{	
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>$status
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				
-				$this->db->trans_commit();
-				return $output;
-				
-			}catch(MyException $e)
-			{
-				$this->db->trans_rollback();
-				throw $e;
-			}
-		}
-		
-		public function getUserById($id)
-		{
-			$output =array();
-			try
-			{
-				$sql ="SELECT ad_account ,ad_id,ad_status FROM admin_user WHERE ad_id =?";
-				$bind=array($id);
-				$query = $this->db->query($sql,$bind);
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				$row = $query->row_array();
-				$query->free_result();
-				$output['row'] =$row ;
-				return 	$output  ;
-			}catch(MyException $e)
-			{
-				throw $e;
-			}
-		}
-		
-		public function getList($ary)
-		{
-			try
-			{
-				if(empty($ary))
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'000'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				
-				$fields = join(',' ,$ary['fields']);
-				
-				$sql ="	SELECT ad_id AS id," 
-						.$fields.	
-						" FROM
-							admin_user AS au INNER JOIN admin_role AS ar ON au.ad_ar_id = ar.ar_id
-						";
-				$ary['sql'] =$sql;
-				$output = $this->getListFromat($ary);
-				return 	$output  ;
-			}catch(MyException $e)
-			{
-				throw $e;
-			}
-		}
-		
-		public function getRoleList()
-		{
-			try
-			{
-				$sql ="	SELECT 
-							ar_id ,
-							ar_id AS value,
-							ar_name,
-							ar_name AS text
-						FROM  admin_role  WHERE ar_id !=1";
-				$query = $this->db->query($sql);
-				$error = $this->db->error();
-				if($error['message'] !="")
-				{
-					$MyException = new MyException();
-					$array = array(
-						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
-					);
-					
-					$MyException->setParams($array);
-					throw $MyException;
-				}
-				$rows = $query->result_array();
-				return $rows;
-			}catch(MyException $e)
-			{
-				throw $e;
-			}
-		}
-		
-		public function getAdminMenuList()
-		{
-			try
-			{
 			
-				$sql ="	SELECT 
-							per.pe_name,
-							per.pe_func,
-							per.pe_id,
-							per.pe_control,
-							per.pe_page,
-							per.pe_order_id ,
-							per.pe_icon 
-						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
-							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
-						WHERE per.pe_parents_id = 0
-						ORDER BY per.pe_order_id DESC";
-				$query = $this->db->query($sql, $bind);
+			try
+			{
+				$sql ="	INSERT texasholdem_insurance_order(
+							round,
+							outs,
+							odds,
+							pot,
+							maximun,
+							maximun_p50,
+							buy_amount,
+							u_id,
+							insured_amount
+						)VALUES(?,?,?,?,?,?,?,?,?)";
+				$bind =array(
+					$ary['round'],
+					$ary['outs'],
+					$ary['odds'],
+					$ary['pot'],
+					$ary['maximun'],
+					$ary['maximun_p50'],
+					$ary['amount'],
+					$ary['u_id'],
+					$ary['pay']
+				);
+				
+				$this->db->query($sql, $bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
 				{
 					$MyException = new MyException();
 					$array = array(
 						'el_system_error' 	=>$error['message'] ,
-						'status'	=>'001'
+						'status'	=>'000'
 					);
 					
 					$MyException->setParams($array);
 					throw $MyException;
 				}
-	
-				$output['list'] = $query->result_array();
-				if(!empty($output['list']))
+				
+				$affected_rows = $this->db->affected_rows();
+				if($affected_rows==0)
 				{
-					foreach($output['list'] as $key => &$value)
-					{
-						$sql="	SELECT 
-									pe_name,
-									pe_func,
-									pe_id,
-									pe_control,
-									pe_page,
-									pe_icon
-								FROM permissions WHERE pe_parents_id =? AND pe_type='menu'";
-						$bind = array(
-							$value['pe_id']
-						);
-						$query = $this->db->query($sql, $bind);
-						$error = $this->db->error();
-						if($error['message'] !="")
-						{
-							$MyException = new MyException();
-							$array = array(
-								'message' 	=>$error['message'] ,
-								'type' 		=>'db' ,
-								'status'	=>'001'
-							);
-							
-							$MyException->setParams($array);
-							throw $MyException;
-						}
-						$child = $query->result_array();
-						$value['child'] = $child;
-					}
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
 				}
-				$query->free_result();
-				return $output;
+				$order_id =  $this->db->insert_id();	
+				return $order_id;
 			}	
 			catch(MyException $e)
 			{

@@ -162,6 +162,42 @@ class MyFunc
 		return '200';
 	}
 	
+	public function getUser($sess)
+	{
+		$urlRsaRandomKey =$sess;
+		$encrypt_data = $_SESSION['encrypt_user_data'] ;
+		$decrypt_data= $this->decryptUser($urlRsaRandomKey, $encrypt_data);
+		return $decrypt_data;
+	}
+	
+	public function checkUser($gitignore)
+	{
+		
+		$get = $this->CI->input->get();
+		$default = array(
+			"getUser",
+		);
+		
+		$result = array_merge($gitignore, $default);
+		if(!in_array($this->CI->uri->segment(2), $result ))
+		{
+			if($get['sess'] =='')
+			{
+				return  '000' ;
+			}
+			
+			$user_data = $this->getUser($get['sess']);
+			
+			if(empty($user_data))
+			{
+				return '000';
+			}
+			
+			
+		}
+		return '200';
+	}
+	
 	public function response($output)
 	{
 		

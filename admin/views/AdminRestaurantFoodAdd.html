@@ -1,0 +1,84 @@
+<div class="row" ng-init="addFormInit('addFoodInit')">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>Food Add</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li><a class="collapse-link" ng-click="back();"><i class="fa fa-arrow-left"></i></a></li>
+					<li><a class="close-link" ng-click="tableClose();"><i class="fa fa-close"></i></a></li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br>
+				<form id="demo-form2"  action="{{data.form.action}}" method="post" class="form-horizontal form-label-left" enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-6" >food name<span class="required">*</span></label>
+						<div class="col-md-3 col-sm-6 col-xs-12">
+							<input type="text" name="f_name" size="2" width="40" required="required" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >food name en<span class="required">*</span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="text" name="f_name_en" required="required" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >food status<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<select name="f_status" class="form-control OpenSelect">
+								<option value="sale_on">sale_on	</option>
+								<option value="sale_out">sale_out</option>
+								<option value="sale_off">sale_off</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >large_price<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="number" min="1" step="0.01" value="1" name="f_large_price" required="required" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >medium_price<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="number" min="0" step="0.01" value="0" name="f_medium_price"  class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >small_price<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="number" min="0" step="0.01" value="0" name="f_small_price" required="required" class="form-control col-md-7 col-xs-12">
+						</div>
+					</div>
+					<div class="form-group"  ng-if="data.form.controller_list.category_list.length > 0">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >category<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<select name="f_ca_id" class="form-control OpenSelect">
+								<option value="{{option.ca_id}}" ng-repeat="option in data.form.controller_list.category_list"  ng-bind="option.ca_name+'/'+option.ca_name_en"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group" >
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" >food photo<span class="required"></span></label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="file" name="f_photo_300X250" >
+							<span class="count_top">image max width*height : 300*250 </span><br>
+							<span class="count_top">allowed_types : jpg jpeg png </span><br>
+							<span class="count_top">image max size : 2048kb </span>
+						</div>
+					</div>
+					<div class="ln_solid"></div>
+					<div class="form-group">
+						<div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+							<button class="btn btn-primary" type="reset">Reset</button>
+							<input type="hidden"  name="f_r_id" value="{{data.form.id}}">
+							<input type="submit" class="btn btn-success" value="Submit">
+						</div>
+					</div>
+				</form>
+			</div>
+	  </div>
+	</div>
+</div>

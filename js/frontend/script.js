@@ -4,8 +4,10 @@ function dialog(object2, params)
 	{
 		object2 ={};
 	}
-	var  object1 ={
-		buttons: [
+	var  object1 =
+	{
+		buttons: 
+		[
 			{
 				text: "close",
 				click: function() 
@@ -28,3 +30,6 @@ function dialog(object2, params)
 	// $('.ui-dialog').css({left:"875px"});
 	// $('.ui-dialog',parent.document).css({left:"875px"});
 }
+$(function() {
+    
+});

@@ -14,9 +14,14 @@
 	<link href="/css/frondend/index.css" rel="stylesheet">
 	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
 </head>
-<body>
+<body ng-controller="bodyCtrl" ng-init="init()">
 	<div  ng-include="'/views/nav.html'"></div>
 	<div ng-view></div>
+	<div class="footer-copyright py-3 text-center">
+        © 2018 Copyright:
+        <a href="http://www.sihalive.com/">sihalive</a>
+    </div>
+	<div  ng-include="'/views/dialog.html'"></div>
 	<!-- jquery -->
 	<script src="/js/jquery/1.12.4/jquery.min.js" ></script>	
 	<!-- bootstrp-->

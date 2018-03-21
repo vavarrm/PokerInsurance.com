@@ -1,4 +1,4 @@
-<main role="main" class="container" ng-init="step=1" >
+<main role="main" class="container" ng-init="init();" >
 	<div ng-show="step==1">
 		<form  class="form-row">
 			<div class="form-group col-md-12">
@@ -39,34 +39,34 @@
 			</div>
 			<div class="form-group col-md-12">
 				<label >补牌数/Outs</label>
-				<input type="number"  min="1" max="20"   ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
+				<input type="number"  min="1"    ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
 			</div>
 			<div class="form-group col-md-12">
 				<label>赔率/Odds</label>
-				<input class="form-control"  ng-model="odds[input.outs]" placeholder="赔率/Odds" readonly type="text">
+				<input class="form-control"  ng-model="odds[input.outs]" placeholder="赔率/Odds" readonly disabled type="text">
 			</div>
 			<div class="form-group col-md-12">
 				<label >底池/Pot</label>
-				<input type="number" step="0.5" min="1"    ng-model="input.pot" class="form-control" ng-disabled="input.players>3 || input.round===undefined || odds[input.outs]===undefined" placeholder="底池/Pot">
+				<input type="number" step="0.5" min="1"  ng-model="input.pot" class="form-control" ng-disabled="input.players>3 || input.round===undefined || odds[input.outs]===undefined" placeholder="底池/Pot">
 			</div>
 			<div class="form-group col-md-12">
-				<label>上限/Maximum</label>
-				<input class="form-control" ng-model="input.i_maximum" placeholder="上限/Maximum" readonly type="text">
+				<label>保金上限/Maximum</label>
+				<input class="form-control" ng-model="input.i_maximum" placeholder="保金上限/Maximum" readonly disabled  type="text">
 			</div>
 			<div class="form-group col-md-12">
 				<label>保本/50 %</label>
-				<input class="form-control" ng-model="input.percentage50" placeholder="保本/50 %" readonly type="text">
+				<input class="form-control" ng-model="input.percentage50" placeholder="保本/50 %" readonly disabled  type="text">
 			</div>
 			<div class="form-group col-md-12">
-				<label>购买额/amount</label>
-				<input class="form-control"  type="number" step="0.1"   ng-model="input.amount" ng-init="input.amount =0" ng-disabled="input.pot===undefined|| input.round===undefined || odds[input.outs]===undefined || input.pot ===null" type="text">
+				<label>保金/buy amount</label>
+				<input class="form-control" placeholder="保金/buy amount"  type="number" step="0.1"   ng-model="input.amount" ng-init="input.amount =0" ng-disabled="input.pot===undefined|| input.round===undefined || odds[input.outs]===undefined || input.pot ===null" type="text">
 			</div>
 			<div class="form-group col-md-12">
-				<label>保险赔注额/pay total</label>
-				<input class="form-control"  type="text" ng-model="input.payamount" ng-init="input.payamount=0" readonly>
+				<label>保额/insured amount</label>
+				<input class="form-control"  type="text" placeholder="保额/insured amount" ng-model="input.payamount" ng-init="input.payamount=0" readonly disabled>
 			</div>
 			<div class="form-group col-md-12"  >
-				<input type="submit" ng-click="gostep(2)" class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="input.amount === 0 || input.amount===null">
+				<input type="submit" ng-click="step=2;goTop();" class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="input.amount === 0 || input.amount===null">
 			</div>
 		</form>
 	</div>
@@ -89,11 +89,11 @@
 						<td ng-bind="input.round"></td>
 					  </tr>					  
 					  <tr>
-						<td>赔率/Odds</td>
+						<td>补牌数/Outs</td>
 						<td ng-bind="input.outs"></td>
 					  </tr>	
 					  <tr>
-						<td>补牌数/Outs</td>
+						<td>赔率/Odds</td>
 						<td ng-bind="odds[input.outs]"></td>
 					  </tr>					  
 					  <tr>
@@ -101,26 +101,31 @@
 						<td ng-bind="input.pot"></td>
 					  </tr>
 					  <tr>
-						<td>上限/Maximum</td>
+						<td>保金上限/Maximum</td>
 						<td ng-bind="input.i_maximum"></td>
 					  </tr>
 					  <tr>
-						<td>购买额/amount</td>
+						<td>保金/buy amount</td>
 						<td ng-bind="input.amount"></td>
 					  </tr>			 
 					  <tr>
-						<td>保险赔注额/pay total</td>
+						<td>保额/insured amount</td>
 						<td ng-bind="input.payamount"></td>
+					  </tr> 
+					  <tr>
+						<td colspan="2">
+							<input  type="text" ng-keyup="check_user_code()" maxlength="6" class="form-control" placeholder="输入使用者6位验证码/please Enter User Code" ng-model="input.ucode" >
+						</td>
 					  </tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="form-group col-6"  >
-			<input type="submit" ng-click="gostep(3)" class="col-12 btn btn-info" value="是/Yes" >
+			<input type="submit" ng-click="save();goTop();" ng-disabled="input.ucode ===undefined || input.ucode === null || input.ucode =='' || checkvcode!='1'" class="col-12 btn btn-info" value="是/Yes" >
 		</div>
 		<div class="form-group col-6"  >
-			<input type="submit" ng-click="gostep(1)" class="col-12 btn btn-info" value="否/No" >
+			<input type="submit" ng-click="step=1" class="col-12 btn btn-info" value="否/No" >
 		</div>
 	</div>
 	<div  ng-show="step==3">
@@ -128,22 +133,22 @@
 			<div class="form-group col-md-12">
 				<label >结果/result</label>
 				<div class="form-check">
-					<input class="form-check-input"  name="result" ng-model="input.result" type="radio"  value="yes">
+					<input class="form-check-input"  name="result" ng-model="input.result" type="radio"  value="pay">
 					<label class="form-check-label" >
 						支付/pay
 					</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" name="result" ng-model="input.result" type="radio"  value="no">
+					<input class="form-check-input" name="result" ng-model="input.result" type="radio"  value="nopay">
 					<label class="form-check-label" >
 						未支付/no pay
 					</label>
 				</div>
 			</div>
 			<div class="form-group col-md-12" >
-				<input type="submit" ng-click="save()" class="col-md-12 btn btn-info" value="储存/save" ng-disabled="step !=2 || input.result===null || input.result===undefined">
+				<input type="submit" ng-click="update_result()" class="col-md-12 btn btn-info" value="储存/save" ng-disabled="step !=3 || input.result===null || input.result===undefined ">
 			</div>
 		</form>
 	</div>
+	
 </main>
-<div  ng-include="'/views/dialog.html'"></div>
