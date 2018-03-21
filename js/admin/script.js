@@ -145,7 +145,7 @@ var bodyCtrl = function($scope, $compile, $cookies, apiService, Websokect)
 							{
 								text: "close",
 								click: function() {
-									location.href="/admin/login"
+									location.href="/admin/login.html"
 									$( this ).dialog( "close" );
 								}
 							}

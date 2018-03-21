@@ -445,17 +445,7 @@ var bodyCtrl = function($scope ,$routeParams, apiService, $cookies)
 					
 				}else
 				{
-					
-					var obj =
-					{
-						'message' :r.data.message,
-						open :function()
-						{
-							setTimeout("location.href='/login.html'",1000)
-						}
-					};
-					dialog(obj);
-					return false;
+					location.href='/login.html';
 				}
 				
 			},
