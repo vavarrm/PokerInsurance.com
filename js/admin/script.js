@@ -55,8 +55,8 @@ function dialog(object2, cb, params)
 		$( "#dialog p", parent.document).text(object1.message); 
 		$( "#dialog" , parent.document).dialog(object1);
 	}
-	$('.ui-dialog').css({left:"875px"});
-	$('.ui-dialog',parent.document).css({left:"875px"});
+	// $('.ui-dialog').css({left:"875px"});
+	// $('.ui-dialog',parent.document).css({left:"875px"});
 }
 
 var bodyCtrl = function($scope, $compile, $cookies, apiService, Websokect)
