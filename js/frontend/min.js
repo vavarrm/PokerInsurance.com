@@ -43,13 +43,6 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 					$scope.odds = r.data.body.odds;
 					window.scrollTo(0,0);
 				
-				}else
-				{
-					var obj =
-					{
-						'message' :r.data.message,
-					};
-					dialog(obj);
 				}
 				
 			},
