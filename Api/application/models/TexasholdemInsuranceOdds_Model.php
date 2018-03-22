@@ -40,9 +40,10 @@
 			
 				$sql =" SELECT 
 							odds_outs,
-							odds_value
+							odds_value,
+							odds_id
 						FROM  texasholdem_insurance_odds
-						WHERE  odds_group_id =?";
+						";
 				$bind =array(
 					$ary['group_id'],
 				);

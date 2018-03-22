@@ -69,16 +69,27 @@
 			}
 		}
 		
-		public function getOrderNumber()
+		public function getOrderNumber($round)
 		{
 			try
 			{
+				$round = strtoupper(substr($round,0,1));
 				$sql ="SELECT 
-							CONCAT(DATE_FORMAT(NOW(),'%Y%m%d'),
-							LPAD((SELECT COUNT(*) AS total FROM `texasholdem_insurance_order` 
-									WHERE DATE_FORMAT(add_datetime,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d') ) + 1,8,0),
-							LPAD(FLOOR(1 + (RAND() * 9999)),4,0)) AS order_number";
-				$query = $this->db->query($sql);
+							CONCAT
+							(
+								DATE_FORMAT(NOW(),'%y%m%d%H'),
+								LPAD((
+									SELECT 
+										COUNT(*) AS total 
+									FROM 
+										`texasholdem_insurance_order` 
+									WHERE 
+										DATE_FORMAT(add_datetime,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H') 
+								) + 1,3,0),
+								IF((SELECT COUNT(order_number) FROM  texasholdem_insurance_order WHERE order_number = ?) +1 >1 , 2,1)
+							) AS order_number";
+				$bind = array($round);
+				$query = $this->db->query($sql,$bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
 				{
@@ -106,7 +117,11 @@
 			$output = array();
 			try
 			{
-				$order_number = $this->getOrderNumber();
+				$order_number = $this->getOrderNumber($ary['order_number']);
+				if($ary['order_number'] !='')
+				{
+					$order_number =  substr($ary['order_number'],0,11).'2';
+				}
 				$this->db->trans_begin();
 				$sql ="	INSERT texasholdem_insurance_order(
 							round,

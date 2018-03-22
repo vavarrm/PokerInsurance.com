@@ -13,9 +13,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	$scope.ajaxload = false;
 	$scope.input ={};
 	$scope.odds={};
-	
-
-	
+	$scope.step =1;
 	$scope.init = function()
 	{
 		if($scope.ajaxload == true)
@@ -72,8 +70,10 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 			if(newValue =="pay")
 			{
 				$scope.input.payamount =$scope.input.insuredamount;
+				$scope.input.payamount_disable = false;
 			}else{
 				$scope.input.payamount = 0;
+				$scope.input.payamount_disable = true;
 			}
 		}
 		
@@ -213,14 +213,31 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				$scope.ajaxload = false;
 				if(r.data.status =="200")
 				{
-					$scope.step =1;
-					$scope.input ={};
-					var obj =
+					if($scope.input.round =="flop")
 					{
-						'message' :'成功/upload ok',
-					};
-					dialog(obj);
-				
+						if(confirm('續买转牌保险/Buy Insurance At Turn'))
+						{
+							$scope.step =1;
+							$scope.input.round = "turn";
+							$scope.input.result ="";
+							$scope.input.round_disabled = true;
+							$scope.input.players_disabled = true;
+							$scope.input.pot_disabled = true;
+						}else
+						{
+							$scope.input ={};
+							$scope.step =1;
+						}
+					}else{
+						$scope.input ={};
+						$scope.step =1;
+						var obj =
+						{
+							'message' :'成功/upload ok',
+						};
+						dialog(obj);
+					}
+					
 				}else
 				{
 					var obj =
@@ -266,8 +283,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				{
 					$scope.input.order_id =r.data.body.order_id;
 					$scope.input.order_number =r.data.body.order_number;
-					$scope.step=3;
-				
+					$scope.step=3;		
 				}else
 				{
 					var obj =

@@ -84,20 +84,6 @@
 
 			<!-- page content -->
 			<div class="right_col" role="main" ng-show="panelShow">
-				<div class="row tile_count">
-					<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-						<span class="count_top"><i class="fa fa-user"></i> Total Orders - processing</span>
-						<div class="count"  ng-class="socket_push_data.order_total_add == true?'red':''" ng-bind="socket_push_data.order_total"></div>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-						<span class="count_top"><i class="fa fa-user"></i> Total Orders - restaurant</span>
-						<div class="count"  ng-class="socket_push_data.order_total_add == true?'red':''" ng-bind="socket_push_data.order_total"></div>
-					</div>
-					<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-						<span class="count_top"><i class="fa fa-user"></i> Total Orders - delivery</span>
-						<div class="count"  ng-class="socket_push_data.order_total_add == true?'red':''" ng-bind="socket_push_data.order_total"></div>
-					</div>
-				</div>
 				<div  role="tabpanel" data-example-id="togglable-tabs">
 				  <ul id="myTab" class="nav nav-tabs" role="tablist">
 				
@@ -110,10 +96,8 @@
 			<!-- /page content -->
 		</div>
     </div>
-
 	<div ng-include="'/admin/views/dialog.html'"></div>
 	<!-- jquery -->
-		
 	<script src="/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>

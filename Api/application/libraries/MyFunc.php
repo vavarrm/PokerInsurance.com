@@ -7,6 +7,14 @@ class MyFunc
 		$this->CI =& get_instance();
 		$this->CI->load->model('AdminUser_Model', 'admin_user');
 	}
+	
+	public function validateDate($date, $format = 'Y-m-d')
+	{
+		$d = DateTime::createFromFormat($format, $date);
+		return $d && $d->format($format) == $date;
+	}
+
+	
 	public function readJson($parameter = array())
 	{
 		$default = array(

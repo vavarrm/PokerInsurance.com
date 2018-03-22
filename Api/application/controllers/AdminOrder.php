@@ -79,13 +79,26 @@ class AdminOrder extends CI_Controller {
 			
 			$ary['order'] = (empty($this->request['order']))?array("o.order_id"=>'DESC'):$this->request['order'];
 		    
-
+			$form['datetimeSearchControl'] = true;
+			
 			$temp=array(
 				'pe_id' =>$this->pe_id,
 				'ad_id' =>$this->admin['ad_id'],
 			);
 			$action_list = $this->admin_user->getAdminListAction($temp);
+			
+			$datetime_start = ($this->myfunc->validateDate($this->request['date_start']))?$this->request['date_start']:'';
+			$datetime_end = ($this->myfunc->validateDate($this->request['date_end']))?$this->request['date_end']:'';
 		
+			$ary['datetime_start'] = array(
+				'value'	=>$datetime_start,
+				'operator'	=>'>=',
+			);
+			$ary['datetime_end'] = array(
+				'value'	=>$datetime_end,
+				'operator'	=>'<=',
+			);
+			
 			$ary['fields'] = array(
 				'order_number'		=>array('field'=>'o.order_number','AS' =>'订单編號'),
 				'round'				=>array('field'=>'o.round','AS' =>'下注圈'),
@@ -97,15 +110,21 @@ class AdminOrder extends CI_Controller {
 				'buy_amount'		=>array('field'=>'o.buy_amount','AS' =>'保金'),
 				'insured_amount'	=>array('field'=>'o.insured_amount','AS' =>'保额'),
 				'result'			=>array('field'=>'o.result','AS' =>'结果'),
-				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'赔附额'),
-				'income'			=>array('field'=>'(o.buy_amount - pay_amount) AS income ','AS' =>'收入'),
+				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'赔付额'),
+				'income'			=>array('field'=>'(CASE result  WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount  END ) AS income ','AS' =>'收入'),
 				'complete'			=>array('field'=>'o.complete','AS' =>'是否完成'),
+			);
+			
+			$ary['subtotal'] = array(
+				'buy_amount'		=>array('field'=>'ROUND(SUM(t.buy_amount),2)','AS' =>'保金总额'),
+				'pay_amount'		=>array('field'=>'ROUND(SUM(t.pay_amount),2)','AS' =>'赔付总額'),
+				'income'		=>array('field'=>'ROUND(SUM(t.income),2)','AS' =>'收入总額'),
 			);
 			$list = $this->order->getList($ary);
 			
-			
 			$output['body'] = $list;
 			$output['body']['fields'] = $ary['fields'] ;
+			$output['body']['subtotal_fields'] = $ary['subtotal'] ;
 			$output['body']['form'] =$form;
 			$output['body']['action_list'] =$action_list;
 		}catch(MyException $e)

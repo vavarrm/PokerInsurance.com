@@ -112,7 +112,8 @@ class CI_Model {
 				'p',
 				'order',
 				'sql',
-				'fields'
+				'fields',
+				'subtotal'
 			);
 			$limit = sprintf(" LIMIT %d, %d",abs($ary['p']-1)*$ary['limit'],$ary['limit']);
 			if(is_array($ary))
@@ -123,7 +124,7 @@ class CI_Model {
 					{
 						continue;
 					}
-					if($key =="start_time" || $key=="end_time"  )
+					if($key =="datetime_start" || $key=="datetime_end"  )
 					{
 						if($value['value']!='')
 						{
@@ -173,14 +174,38 @@ class CI_Model {
 			
 			$rows = $query->result_array();
 			
-			$total_sql = sprintf("SELECT COUNT(*) AS total FROM(%s) AS t",$sql.$where) ;
+			// var_dump($ary['total']);
+			
+			if(!empty($ary['subtotal']))
+			{
+				$temp =array();
+				foreach($ary['subtotal'] as $key => $value)
+				{
+					$temp[]= sprintf('%s AS %s',$value['field'],$key); 
+				}
+				$temp =",".join(',', $temp);
+			}
+			$total_sql = sprintf("SELECT COUNT(*)  AS total  %s FROM(%s) AS t",$temp,$sql.$where) ;
 			$query = $this->db->query($total_sql, $bind);
+			$error = $this->db->error();
+			if($error['message'] !="")
+			{
+				$MyException = new MyException();
+				$array = array(
+					'el_system_error' 	=>$error['message'] ,
+					'status'	=>'000'
+				);
+				
+				$MyException->setParams($array);
+				throw $MyException;
+			}
 			$row = $query->row_array();
 			
 			$query->free_result();
 			$output['list'] = $rows;
 			$output['pageinfo']  = array(
 				'total'	=>$row['total'],
+				'subtotal_datalist'	=>$row,
 				'pages'	=>ceil($row['total']/$ary['limit']),
 				'p'		=>$ary['p'],
 				'limit'	=>$ary['limit']

@@ -378,6 +378,37 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		}
 	}
 	
+	$scope.dateSearchInit = function(c)
+	{
+		$( "."+c ).datepicker({"dateFormat":"yy-mm-dd"});
+	}
+	
+	$scope.$watch('data.table_search.date_start', function(newValue, oldValue) {
+	
+		if(newValue > $scope.data.table_search.date_end && typeof newValue !="undefined" && newValue !="null")
+		{
+			$scope.data.table_search.date_start = oldValue;
+			var obj ={
+				'message' :'起始時間大於結束時間'
+			};
+			dialog(obj);
+			return false;
+		}
+	});
+	
+	$scope.$watch('data.table_search.date_end', function(newValue, oldValue) {
+	
+		if(newValue < $scope.data.table_search.date_start && typeof newValue !="undefined" && newValue !="null")
+		{
+			$scope.data.table_search.date_end = oldValue;
+			var obj ={
+				'message' :'起始時間大於結束時間'
+			};
+			dialog(obj);
+			return false;
+		}
+	});
+	
 	$scope.tableListInit = function()
 	{
  
@@ -546,6 +577,8 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 					$scope.data.form.table_add = r.data.body.form.table_add;
 					$scope.data.form.table_del = r.data.body.form.table_del;
 					$scope.data.form.table_edit = r.data.body.form.table_edit;
+					$scope.data.table_subtotal_fields = r.data.body.subtotal_fields;
+					$scope.data.table_subtotal_data = r.data.body.pageinfo.subtotal_datalist;
 				}else
 				{
 					var obj =

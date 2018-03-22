@@ -191,6 +191,7 @@ class HdPokerInsurance extends CI_Controller {
 			$players = (isset($this->request['players']))?intval($this->request['players']):0;
 			$outs = (isset($this->request['outs']))?intval($this->request['outs']):0;
 			$odds = (isset($this->request['odds']))?$this->request['odds']:0;
+			$order_number = (isset($this->request['odds']))?$this->request['order_number']:'';
 			$insuredamount = (isset($this->request['insuredamount']))?$this->request['insuredamount']:0;
 			$pot = (isset($this->request['pot']))?$this->request['pot']:0;
 			$amount = (isset($this->request['amount']))?$this->request['amount']:0;
@@ -243,7 +244,8 @@ class HdPokerInsurance extends CI_Controller {
 				'amount'=>$amount,
 				'u_id'=>$this->user_data['u_id'],
 				'pay'=>$insuredamount,
-				'players' =>$players
+				'players' =>$players,
+				'order_number'	=>$order_number
 			);
 			
 			$output['body'] = $this->order->insert($ary);
