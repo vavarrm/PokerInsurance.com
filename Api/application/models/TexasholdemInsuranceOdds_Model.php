@@ -22,6 +22,59 @@
 		}
 		 
 		
+		public function batchUpload($ary)
+		{
+			try
+			{
+				$this->db->trans_begin();
+
+				if(empty($ary))
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>'no setting ary' ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+			
+				foreach($ary as $key=>$value)
+				{
+					$sql =" UPDATE  texasholdem_insurance_odds
+							SET odds_value = ?
+							WHERE  odds_id =?
+							";
+					$bind =array(
+						$value,
+						$key,
+					);
+					$query = $this->db->query($sql, $bind);
+					$error = $this->db->error();
+					if($error['message'] !="")
+					{
+						$MyException = new MyException();
+						$array = array(
+							'el_system_error' 	=>$error['message'] ,
+							'status'	=>'000'
+						);
+						
+						$MyException->setParams($array);
+						throw $MyException;
+						break;
+					}
+				}
+
+				$this->db->trans_commit();
+			}	
+			catch(MyException $e)
+			{
+				 $this->db->trans_rollback();
+				throw $e;
+			}
+		}
+		
 		public function getOddsList($ary)
 		{
 			try

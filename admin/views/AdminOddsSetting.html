@@ -15,7 +15,7 @@
 					<div class="form-group" ng-repeat="row in data.form_row.odds_list">
 						<label class="control-label col-md-3 col-sm-3 col-xs-6" >补牌数<span ng-bind="row.odds_outs"></span>：</label>
 						<div class="col-md-2">
-							<input type="number" max="99" step="0.1" value="{{row.odds_value}}" name="odds[row.odds_id]"  required="required" class="form-control col-md-7 col-xs-12">
+							<input type="number" max="99" step="0.1" value="{{row.odds_value}}" name="odds[{{row.odds_id}}]"  required="required" class="form-control col-md-7 col-xs-12">
 						</div>
 					</div>
 					<div class="ln_solid"></div>

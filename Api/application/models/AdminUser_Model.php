@@ -21,6 +21,50 @@
 			}
 		}
 		
+		public function getIdByCAndF($ary)
+		{
+			try
+			{
+				if(empty($ary))
+				{
+					$MyException = new MyException();
+					$array = array(
+						'message' 	=>'ary empty',
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				
+					
+				$bind = array(
+					$ary['control'],
+					$ary['func']
+				);
+				$sql ="SELECT  pe_id FROM permissions WHERE pe_control = ? AND pe_func=?";
+				$query = $this->db->query($sql, $bind);
+				$error = $this->db->error();
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);			
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				$row = $query->row_array();
+				$query->free_result();
+			
+				return $row ;
+			
+			}catch(MyException $e){
+				throw $e;
+			}
+		}
+		
 		public function getMenu()
 		{
 			$sql="SELECT * FROM  permissions";
