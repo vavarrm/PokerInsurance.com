@@ -219,9 +219,16 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 						{
 							$scope.step =1;
 							$scope.input.round = "turn";
+							if($scope.input.result !="pay")
+							{
+								$scope.input.fpot = $scope.input.pot;
+								$scope.input.famount = $scope.input.amount;
+								$scope.input.pot = $scope.input.pot-$scope.input.amount;
+							}
 							$scope.input.result ="";
 							$scope.input.round_disabled = true;
 							$scope.input.players_disabled = true;
+							
 							$scope.input.pot_disabled = true;
 						}else
 						{
