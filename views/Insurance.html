@@ -182,6 +182,14 @@
 							<td>赔率/Odds</td>
 							<td ng-bind="odds[input.outs]"></td>
 						</tr>					  
+						<tr ng-show="input.nowbuyturn">
+							<td>翻牌圈底池/Flop Pot</td>
+							<td ng-bind="input.fpot"></td>
+						</tr>
+						<tr>
+							<td>底池/Pot</td>
+							<td ng-bind="input.pot"></td>
+						</tr>
 						<tr>
 							<td>保金上限/Maximum</td>
 							<td ng-bind="input.i_maximum"></td>
