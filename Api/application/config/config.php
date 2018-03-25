@@ -368,7 +368,7 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
+$config['sess_driver'] = 'database';
 $config['sess_table_name'] = 'ci_sessions';
 $config['sess_cookie_name'] = 'sihalive';
 $config['sess_expiration'] = 7200;
