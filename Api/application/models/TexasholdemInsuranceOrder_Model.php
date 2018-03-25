@@ -78,14 +78,13 @@
 							CONCAT
 							(
 								DATE_FORMAT(NOW(),'%y%m%d%H'),
-								LPAD((
-									SELECT 
-										COUNT(*) AS total 
+								(SELECT LPAD((SELECT IFNULL((SELECT 
+										substring(order_number,9,3)
 									FROM 
 										`texasholdem_insurance_order` 
 									WHERE 
-										DATE_FORMAT(add_datetime,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H') 
-								) + 1,3,0),
+										DATE_FORMAT(add_datetime,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H') ORDER BY  `order_number` DESC LIMIT 1 
+								),0)+1 AS oo),3,0)),
 								IF((SELECT COUNT(order_number) FROM  texasholdem_insurance_order WHERE order_number = ?) +1 >1 , 2,1)
 							) AS order_number";
 				$bind = array($round);
