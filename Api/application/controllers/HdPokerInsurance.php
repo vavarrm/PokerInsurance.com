@@ -197,11 +197,13 @@ class HdPokerInsurance extends CI_Controller {
 			$amount = (isset($this->request['amount']))?$this->request['amount']:0;
 			$i_maximum = (isset($this->request['i_maximum']))?$this->request['i_maximum']:0;
 			$percentage50 = (isset($this->request['percentage50']))?$this->request['percentage50']:0;
+			$payamount = (isset($this->request['payamount']))?$this->request['payamount']:0;
+			$result = ($this->request['result']=="pay" || $this->request['result']=="nopay")?$this->request['result']:'';
 			
 			$round = (isset($this->request['round']))?$this->request['round']:'';
 			$ucode = (isset($this->request['ucode']))?$this->request['ucode']:'';
 			
-			
+
 			$ary = array(
 				'u_code'	=>$ucode,
 				'u_id'		=>$this->user_data['u_id'],
@@ -221,8 +223,9 @@ class HdPokerInsurance extends CI_Controller {
 				($round !="flop" && $round!="turn") ||
 				$amount >$i_maximum ||
 				$insuredamount >$pot ||
-				$check['total'] != '1'||
-				$_odds['odds_value'] !=$odds
+				$_odds['odds_value'] !=$odds ||
+				$result ==''||
+				$payamount > $pot 
 			){
 				$array = array(
 					'status'	=>'000'
@@ -231,7 +234,6 @@ class HdPokerInsurance extends CI_Controller {
 				$MyException->setParams($array);
 				throw $MyException;
 			}
-			
 				
 			$ary =array(
 				'round'=>$round,
@@ -245,7 +247,9 @@ class HdPokerInsurance extends CI_Controller {
 				'u_id'=>$this->user_data['u_id'],
 				'pay'=>$insuredamount,
 				'players' =>$players,
-				'order_number'	=>$order_number
+				'order_number'	=>$order_number,
+				'result'	=>$result,
+				'payamount'	=>$payamount,
 			);
 			
 			$output['body'] = $this->order->insert($ary);

@@ -77,9 +77,9 @@
 				$sql ="SELECT 
 							CONCAT
 							(
-								DATE_FORMAT(NOW(),'%y%m%d%H'),
+								DATE_FORMAT(NOW(),'%y%m%d%H%i'),
 								(SELECT LPAD((SELECT IFNULL((SELECT 
-										substring(order_number,9,3)
+										substring(order_number,11,3)
 									FROM 
 										`texasholdem_insurance_order` 
 									WHERE 
@@ -119,7 +119,7 @@
 				$order_number = $this->getOrderNumber($ary['order_number']);
 				if($ary['order_number'] !='')
 				{
-					$order_number =  substr($ary['order_number'],0,11).'2';
+					$order_number =  substr($ary['order_number'],0,13).'2';
 				}
 				$this->db->trans_begin();
 				$sql ="	INSERT texasholdem_insurance_order(
@@ -133,8 +133,11 @@
 							u_id,
 							insured_amount,
 							order_number,
-							players
-						)VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+							players,
+							result,
+							pay_amount,
+							complete
+						)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
 				$bind =array(
 					$ary['round'],
 					$ary['outs'],
@@ -146,7 +149,9 @@
 					$ary['u_id'],
 					$ary['pay'],
 					$order_number ,
-					$ary['players']
+					$ary['players'],
+					$ary['result'],
+					$ary['payamount'],
 				);
 				
 				$this->db->query($sql, $bind);

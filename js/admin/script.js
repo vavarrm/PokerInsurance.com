@@ -70,7 +70,6 @@ var bodyCtrl = function($scope, $compile, $cookies, apiService, Websokect)
 	}
 	
 	$scope.socket_push_data ={};
-	$scope.test="D";
 	$scope.templates ={};
 	$scope.sidebarMenuList={};
 	

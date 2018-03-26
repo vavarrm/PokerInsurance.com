@@ -39,7 +39,6 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				if(r.data.status =="200")
 				{
 					$scope.step=1;
-					console.log(r);
 					$scope.odds = r.data.body.odds;
 					window.scrollTo(0,0);
 				
@@ -64,6 +63,8 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	}
 	
 	$scope.$watch('input.pot', function(newValue, oldValue) {
+		
+		
 		if(typeof newValue !="undefined")
 		{
 			$scope.input.i_maximum =Math.floor(newValue/$scope.odds[$scope.input.outs]*10)/10;
@@ -161,7 +162,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 			$scope.input.outs = oldValue;
 			return false;
 		}
-		13
+		
 		
 		if(typeof newValue !="undefined" && typeof $scope.input.pot !="undefined")
 		{
@@ -201,8 +202,20 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		window.scrollTo(0,0);
 	}
 	
+	$scope.newGame = function()
+	{
+		$scope.step =1;
+		$scope.input={};
+	}
+	
 	$scope.update_result = function()
 	{
+		
+	}
+	
+	$scope.end =function(){
+		$scope.save();
+		return false;
 		if($scope.ajaxload == true)
 		{
 			var obj =
@@ -223,7 +236,12 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				$scope.ajaxload = false;
 				if(r.data.status =="200")
 				{
-					$scope.step =4;
+					var obj =
+					{
+						'message' :'已储存/next Game',
+					};
+					dialog(obj);
+					$scope.input.confirm =true;
 					
 				}else
 				{
@@ -243,11 +261,6 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				dialog(obj);
 			}
 		)
-	}
-	
-	$scope.end =function(){
-		$scope.step =1;
-		$scope.input={};
 	}
 	
 	$scope.buyTurn=function()
@@ -274,6 +287,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	
 	$scope.save = function()
 	{	
+		$scope.input.confirm = false;
 		if($scope.ajaxload == true)
 		{
 			var obj =
@@ -296,7 +310,12 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				{
 					$scope.input.order_id =r.data.body.order_id;
 					$scope.input.order_number =r.data.body.order_number;
-					$scope.step=3;		
+					var obj =
+					{
+						'message' :'已储存/next Game',
+					};
+					dialog(obj);
+					$scope.input.confirm =true;
 				}else
 				{
 					var obj =
