@@ -5,7 +5,7 @@ class MyFunc
 	public function __construct() 
 	{
 		$this->CI =& get_instance();
-		// $this->CI->load->model('AdminUser_Model', 'admin_user');
+		$this->CI->load->model('AdminUser_Model', 'admin_user');
 	}
 	
 	public function validateDate($date, $format = 'Y-m-d')
