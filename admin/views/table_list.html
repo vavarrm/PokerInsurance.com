@@ -53,11 +53,8 @@
 				<div class="col-sm-10">
 					<div>
 						<label ng-if="data.table_form.datetimeSearchControl" >
-							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;" >日期：</font>
-							</font>
-							<input type="search" ng-init="dateSearchInit('date_start')" class="date_start" ng-model="data.table_search.date_start"  ng-enter="searchClick();"  class="form-control input-sm" placeholder="起" >&nbsp;&nbsp;~&nbsp;
-							<input type="search" ng-init="dateSearchInit('date_end')" class="date_end" ng-model="data.table_search.date_end"      ng-enter="searchClick();"  class="form-control input-sm" placeholder="迄" >&nbsp;&nbsp;&nbsp;
+							<input type="search" ng-init="dateSearchInit('date_start')" ng-model="data.table_search.datetime_start"  ng-enter="searchClick();"  class="form-control date_start input-sm" placeholder="起" >&nbsp;&nbsp;~&nbsp;
+							<input type="search" ng-init="dateSearchInit('date_end')"  ng-model="data.table_search.datetime_end"      ng-enter="searchClick();"  class="form-control date_end input-sm" placeholder="迄" >&nbsp;&nbsp;&nbsp;
 						</label>
 						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
 							<font style="vertical-align: inherit;">
