@@ -13,7 +13,10 @@ class Cron extends CI_Controller {
 		}else{
 		   $myip= $_SERVER['REMOTE_ADDR'];
 		}
-		echo $myip;
+		if($myip!="13.229.126.143")
+		{
+			die('ddd');
+		}
     }
 	
 	public function subtotal(){
