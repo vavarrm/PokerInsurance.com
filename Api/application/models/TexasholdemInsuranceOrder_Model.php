@@ -21,6 +21,12 @@
 			}
 		}
 		
+		
+		public function  subTotal()
+		{
+			
+		}
+		
 		public function updataResult($ary)
 		{
 			try
@@ -66,6 +72,36 @@
 			catch(MyException $e)
 			{
 				throw $e;
+			}
+		}
+		
+		public function subtotalLastDay()
+		{
+			try
+			{
+				$sql =' SELECT 
+							SUM((CASE result WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount END )) AS income , min(`add_datetime`) AS startdatetime , DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s") AS enddatetime 
+						FROM texasholdem_insurance_order AS o 
+						WHERE TIMESTAMPDIFF(SECOND,`add_datetime`,NOW()) <=86400';
+				$query = $this->db->query($sql);
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				$row  = $query->row_array();
+				$query->free_result();
+				return $row ;
+				
+			}catch(MyException $e)
+			{
+				throw $MyException;
 			}
 		}
 		

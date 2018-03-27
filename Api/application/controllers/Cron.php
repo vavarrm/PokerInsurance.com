@@ -6,6 +6,7 @@ class Cron extends CI_Controller {
 	public function __construct() 
 	{
 		parent::__construct();
+		$this->load->model('TexasholdemInsuranceOrder_Model', 'order');
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 		   $myip = $_SERVER['HTTP_CLIENT_IP'];
 		}else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
@@ -13,7 +14,7 @@ class Cron extends CI_Controller {
 		}else{
 		   $myip= $_SERVER['REMOTE_ADDR'];
 		}
-		if($myip!="13.229.126.143")
+		if($myip!="13.229.126.143" && $myip !="127.0.0.1")
 		{
 			die('ddd');
 		}
@@ -21,6 +22,27 @@ class Cron extends CI_Controller {
 	
 	public function subtotal(){
        
-	   echo "D";
+		$row= $this->order->subtotalLastDay();
+		$smstex =sprintf("Insurance Income %s ~ %s  Total %s",$row['startdatetime'], $row['enddatetime'] , $row['income']);
+		echo $smstex;
+		$gsm="85512321402;85516995372";
+		$url="http://client.mekongsms.com/api/postsms.aspx";
+		$post = array(
+			'username'	=>'tryion@sihalive.com',
+			'pass'		=>'h%gJ4atL',
+			'cd'		=>'Cust001',
+			'sender'	=>"Sihalive",
+			'smstext'	=>$smstex,
+			'isflash'	=>0,
+			'gsm'		=>$gsm,
+		);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post)); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
+		$output = curl_exec($ch); 
+		curl_close($ch);
     }
 }
