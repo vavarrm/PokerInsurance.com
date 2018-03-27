@@ -63,8 +63,6 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	}
 	
 	$scope.$watch('input.pot', function(newValue, oldValue) {
-		
-		
 		if(typeof newValue !="undefined")
 		{
 			$scope.input.i_maximum =Math.floor(newValue/$scope.odds[$scope.input.outs]*10)/10;
