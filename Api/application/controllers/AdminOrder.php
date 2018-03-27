@@ -88,8 +88,8 @@ class AdminOrder extends CI_Controller {
 			);
 			$action_list = $this->admin_user->getAdminListAction($temp);
 			
-			$datetime_start = ($this->myfunc->validateDate($this->request['date_start']))?$this->request['date_start']:'';
-			$datetime_end = ($this->myfunc->validateDate($this->request['date_end']))?$this->request['date_end']:'';
+			$datetime_start = (isset($this->request['datetime_start']))?$this->request['datetime_start']:'';
+			$datetime_end = (isset($this->request['datetime_end']))?$this->request['datetime_end']:'';
 		
 			$ary['datetime_start'] = array(
 				'value'	=>$datetime_start,

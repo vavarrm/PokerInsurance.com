@@ -74,7 +74,10 @@
 			try
 			{
 				$round = strtoupper(substr($round,0,1));
-				$sql ="SELECT 
+				$sql ="set time_zone = '+7:00';";
+				$this->db->query($sql);
+				$sql ="
+						SELECT 
 							CONCAT
 							(
 								DATE_FORMAT(NOW(),'%y%m%d%H%i'),
