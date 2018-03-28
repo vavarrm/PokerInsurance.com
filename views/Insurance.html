@@ -25,7 +25,7 @@
 						<td class="font-weight-bold">${{input.fpot}}</td>
 					</tr>
 					<tr ng-show="input.famount >0">
-						<td class="text-warning"> 翻牌圈保金 buy amount</td>
+						<td class="text-warning"> 翻牌圈保金 buy flop amount</td>
 						<td class="font-weight-bold">${{input.famount}}</td>
 					</tr>
 				</tbody>
@@ -70,6 +70,7 @@
 			</div>
 			<div class="form-group col-12">
 				<label>賠付额/pay amount</label>
+				<label ng-show="input.famount>0 && input.result =='pay'"> = {{input.insuredamount}}-{{input.famount}}</label>
 				<input class="form-control" step="0.1"  ng-model="input.payamount" placeholder="賠付额/pay amount" ng-disabled="input.result ===undefined || input.payamount_disable" type="number">
 			</div>
 			<div class="form-group col-12" >
@@ -196,7 +197,7 @@
 							<td ng-bind="input.famount"></td>
 						</tr>							
 						<tr>
-							<td>保金/buy amount</td>
+							<td>保金/buy {{input.round}} amount</td>
 							<td ng-bind="input.amount"></td>
 						</tr>	
 						<tr>
