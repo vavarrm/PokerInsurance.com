@@ -105,11 +105,10 @@
 			}
 		}
 		
-		public function getOrderNumber($round)
+		public function getOrderNumber($order_number)
 		{
 			try
 			{
-				$round = strtoupper(substr($round,0,1));
 				$sql ="set time_zone = '+7:00';";
 				$this->db->query($sql);
 				$sql ="
@@ -118,14 +117,15 @@
 							(
 								DATE_FORMAT(NOW(),'%y%m%d%H%i'),
 								(SELECT LPAD((SELECT IFNULL((SELECT 
-										substring(order_number,11,4)
+										substring(order_number,11,3)
 									FROM 
 										`texasholdem_insurance_order` 
 									WHERE 
 										DATE_FORMAT(add_datetime,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H') ORDER BY  `order_number` DESC LIMIT 1 
-								),0)+1 AS oo),4,0))
+								),0)+1 AS oo),3,0)),
+								IF((SELECT COUNT(order_number) FROM  texasholdem_insurance_order WHERE order_number = ?) +1 >1 , 2,1)
 							) AS order_number";
-				$bind = array($round);
+				$bind = array($order_number);
 				$query = $this->db->query($sql,$bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
