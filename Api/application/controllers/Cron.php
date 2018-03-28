@@ -24,7 +24,7 @@ class Cron extends CI_Controller {
        
 		$row= $this->order->subtotalLastDay();
 		$smstex =sprintf("Insurance Income %s to %s  Total %s",$row['startdatetime'], $row['enddatetime'] , $row['income']);
-		$gsm="85516995372;85512321402";
+		$gsm="85516995372;85512321402;85517684220;85511923080";
 		$url="http://client.mekongsms.com/api/postsms.aspx";
 		$post = array(
 			'username'	=>'tsai_sms@smartmkn',
