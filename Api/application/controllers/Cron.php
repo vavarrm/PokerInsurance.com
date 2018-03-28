@@ -29,7 +29,7 @@ class Cron extends CI_Controller {
 		$url="http://client.mekongsms.com/api/postsms.aspx";
 		$post = array(
 			'username'	=>'tryion@sihalive.com',
-			'pass'		=>'h%gJ4atL',
+			'pass'		=>md5('h%gJ4atL'),
 			'cd'		=>'Cust001',
 			'sender'	=>"Sihalive",
 			'smstext'	=>$smstex,
