@@ -118,13 +118,12 @@
 							(
 								DATE_FORMAT(NOW(),'%y%m%d%H%i'),
 								(SELECT LPAD((SELECT IFNULL((SELECT 
-										substring(order_number,11,3)
+										substring(order_number,11,4)
 									FROM 
 										`texasholdem_insurance_order` 
 									WHERE 
 										DATE_FORMAT(add_datetime,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H') ORDER BY  `order_number` DESC LIMIT 1 
-								),0)+1 AS oo),3,0)),
-								IF((SELECT COUNT(order_number) FROM  texasholdem_insurance_order WHERE order_number = ?) +1 >1 , 2,1)
+								),0)+1 AS oo),4,0))
 							) AS order_number";
 				$bind = array($round);
 				$query = $this->db->query($sql,$bind);
@@ -156,10 +155,6 @@
 			try
 			{
 				$order_number = $this->getOrderNumber($ary['order_number']);
-				if($ary['order_number'] !='')
-				{
-					$order_number =  substr($ary['order_number'],0,13).'2';
-				}
 				$this->db->trans_begin();
 				$sql ="	INSERT texasholdem_insurance_order(
 							round,

@@ -23,9 +23,8 @@ class Cron extends CI_Controller {
 	public function subtotal(){
        
 		$row= $this->order->subtotalLastDay();
-		$smstex =sprintf("Insurance Income %s ~ %s  Total %s",$row['startdatetime'], $row['enddatetime'] , $row['income']);
-		echo $smstex;
-		$gsm="85516995372";
+		$smstex =sprintf("Insurance Income %s to %s  Total %s",$row['startdatetime'], $row['enddatetime'] , $row['income']);
+		$gsm="85516995372;85512321402";
 		$url="http://client.mekongsms.com/api/postsms.aspx";
 		$post = array(
 			'username'	=>'tsai_sms@smartmkn',
@@ -43,7 +42,6 @@ class Cron extends CI_Controller {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post)); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
 		$output = curl_exec($ch); 
-		echo $output;
 		curl_close($ch);
     }
 }

@@ -269,11 +269,11 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 			$scope.input.round = "turn";
 			if($scope.input.result !="pay")
 			{
-				$scope.input.turnAutoBuy =true;
-				$scope.input.fpot = $scope.input.pot;
-				$scope.input.famount = $scope.input.amount;
-				$scope.input.pot = $scope.input.pot-$scope.input.amount;
-				$scope.input.nowbuyturn = true;
+				// $scope.input.turnAutoBuy =true;
+				// $scope.input.fpot = $scope.input.pot;
+				// $scope.input.famount = $scope.input.amount;
+				// $scope.input.pot = $scope.input.pot-$scope.input.amount;
+				// $scope.input.nowbuyturn = true;
 			}
 			$scope.input.round_disabled = true;
 			$scope.input.players_disabled = true;
