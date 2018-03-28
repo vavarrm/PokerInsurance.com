@@ -191,6 +191,11 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 					$scope.input.insuredamount =0;
 				}
 			}
+			
+			if($scope.input.result == 'pay' && newValue>0)
+			{
+				$scope.input.payamount =$scope.input.insuredamount-$scope.input.famount;
+			}
 		}
 
 	});
@@ -275,7 +280,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				// $scope.input.pot = $scope.input.pot-$scope.input.amount;
 				// $scope.input.nowbuyturn = true;
 			}
-			$scope.input.famount = $scope.input.amount ;
+			// $scope.input.famount = $scope.input.amount ;
 			$scope.input.round_disabled = true;
 			$scope.input.players_disabled = true;
 			$scope.input.pot_disabled = true;
