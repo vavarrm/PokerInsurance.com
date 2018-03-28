@@ -47,7 +47,7 @@
 			</div>
 			<div class="form-group col-6">
 				<label >賠率 odds</label><br>
-				<label >{{odds[input.outs]}}</label>
+				<label class="alert">{{odds[input.outs]}}</label>
 			</div>
 			<div class="form-group col-6">
 				<label >补牌数/Outs</label>
@@ -190,7 +190,11 @@
 						<tr>
 							<td>保金上限/Maximum</td>
 							<td ng-bind="input.i_maximum"></td>
-						</tr>	
+						</tr>
+						<tr ng-show="input.famount >0">
+							<td>翻牌保金/buy flop amount</td>
+							<td ng-bind="input.famount"></td>
+						</tr>							
 						<tr>
 							<td>保金/buy amount</td>
 							<td ng-bind="input.amount"></td>
@@ -198,7 +202,11 @@
 						<tr>
 							<td>结果/result</td>
 							<td ng-bind="input.result"></td>
-						</tr>	
+						</tr>
+						<tr>
+							<td>底池/Pot</td>
+							<td ng-bind="input.pot"></td>
+						</tr>						
 						<tr>
 							<td>保额/insurance amount</td>
 							<td ng-bind="input.insuredamount"></td>

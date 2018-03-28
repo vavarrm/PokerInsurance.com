@@ -77,7 +77,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		{
 			if(newValue =="pay")
 			{
-				$scope.input.payamount =$scope.input.insuredamount;
+				$scope.input.payamount =$scope.input.insuredamount-$scope.input.famount;
 				$scope.input.payamount_disable = false;
 			}else{
 				$scope.input.payamount = 0;
@@ -275,6 +275,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 				// $scope.input.pot = $scope.input.pot-$scope.input.amount;
 				// $scope.input.nowbuyturn = true;
 			}
+			$scope.input.famount = $scope.input.amount ;
 			$scope.input.round_disabled = true;
 			$scope.input.players_disabled = true;
 			$scope.input.pot_disabled = true;
