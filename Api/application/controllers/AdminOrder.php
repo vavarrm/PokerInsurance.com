@@ -80,7 +80,7 @@ class AdminOrder extends CI_Controller {
 			$ary['order'] = (empty($this->request['order']))?array("o.order_id"=>'DESC'):$this->request['order'];
 		    
 			$form['datetimeSearchControl'] = true;
-			// $form['print'] =""
+
 			
 			$temp=array(
 				'pe_id' =>$this->pe_id,
@@ -90,6 +90,15 @@ class AdminOrder extends CI_Controller {
 			
 			$datetime_start = (isset($this->request['datetime_start']))?$this->request['datetime_start']:'';
 			$datetime_end = (isset($this->request['datetime_end']))?$this->request['datetime_end']:'';
+			if($datetime_start !="")
+			{
+				$datetime_start = date('Y-m-d H:i' ,strtotime($datetime_start));
+			}
+			
+			if($datetime_end !="")
+			{
+				$datetime_end = date('Y-m-d H:i' ,strtotime($datetime_end));
+			}
 		
 			$ary['datetime_start'] = array(
 				'value'	=>$datetime_start,
@@ -101,19 +110,20 @@ class AdminOrder extends CI_Controller {
 			);
 			
 			$ary['fields'] = array(
-				'order_number'		=>array('field'=>'o.order_number','AS' =>'订单編號'),
-				'round'				=>array('field'=>'o.round','AS' =>'下注圈'),
-				'players'			=>array('field'=>'o.players','AS' =>'玩家人数'),
-				'outs'				=>array('field'=>'o.outs','AS' =>'补牌数'),
-				'odds'				=>array('field'=>'o.odds','AS' =>'赔率'),
-				'pot'				=>array('field'=>'o.pot','AS' =>'底池'),
-				'maximun'			=>array('field'=>'o.maximun','AS' =>'保金上限'),
-				'buy_amount'		=>array('field'=>'o.buy_amount','AS' =>'保金'),
-				'insured_amount'	=>array('field'=>'o.insured_amount','AS' =>'保额'),
-				'result'			=>array('field'=>'o.result','AS' =>'结果'),
-				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'赔付额'),
-				'income'			=>array('field'=>'(CASE result  WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount  END ) AS income ','AS' =>'收入'),
-				'complete'			=>array('field'=>'o.complete','AS' =>'是否完成'),
+				'order_number'		=>array('field'=>'o.order_number','AS' =>'order_id'),
+				'u_name'		=>array('field'=>'u.u_name','AS' =>'add user'),
+				'round'				=>array('field'=>'o.round','AS' =>'round'),
+				'players'			=>array('field'=>'o.players','AS' =>'players'),
+				'outs'				=>array('field'=>'o.outs','AS' =>'outs'),
+				'odds'				=>array('field'=>'o.odds','AS' =>'odds'),
+				'pot'				=>array('field'=>'o.pot','AS' =>'pot'),
+				'maximun'			=>array('field'=>'o.maximun','AS' =>'maximun'),
+				'buy_amount'		=>array('field'=>'o.buy_amount','AS' =>'buy_amount'),
+				'insured_amount'	=>array('field'=>'o.insured_amount','AS' =>'insured_amount'),
+				'result'			=>array('field'=>'o.result','AS' =>'result'),
+				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'pay_amount'),
+				'income'			=>array('field'=>'(CASE result  WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount  END ) AS income ','AS' =>'income'),
+				'add_datetime'		=>array('field'=>'o.add_datetime','AS' =>'add_datetime'),
 			);
 			
 			$ary['subtotal'] = array(

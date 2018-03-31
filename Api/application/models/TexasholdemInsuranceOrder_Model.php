@@ -255,7 +255,7 @@
 				$sql ="	SELECT order_id AS id," 
 						.$fields.	
 						" FROM
-							texasholdem_insurance_order AS o";
+							texasholdem_insurance_order AS o LEFT JOIN user AS u ON o.u_id = u.u_id";
 				$ary['sql'] =$sql;
 				$output = $this->getListFromat($ary);
 				return 	$output  ;

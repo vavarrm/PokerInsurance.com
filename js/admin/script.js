@@ -385,8 +385,8 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		});
 	}
 	
-	$scope.$watch('data.table_search.date_start', function(newValue, oldValue) {
-	
+	$scope.$watch('data.table_search.date_start', function(newValue, oldValue) 
+	{
 		if(newValue > $scope.data.table_search.date_end && typeof newValue !="undefined" && newValue !="null")
 		{
 			$scope.data.table_search.date_start = oldValue;
@@ -413,7 +413,6 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 	
 	$scope.tableListInit = function()
 	{
- 
 		$scope.search();
 	}
 	
@@ -551,6 +550,20 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		
 	$scope.search = function()
 	{
+		if( typeof $('.date_start').val() !="undefined")
+		{
+			var time  = $('.date_start').val();
+			var timeStart =time.replace(/-/g,'/').replace('T',' ');
+			$scope.data.table_search.datetime_start_str =timeStart;
+		}
+		
+		if( typeof $('.date_end').val() !="undefined")
+		{
+			var time  = $('.date_end').val();
+			var timeEnd =time.replace(/-/g,'/').replace('T',' ');
+			$scope.data.table_search.datetime_end_str =timeEnd;
+		}
+		
 		var controller = $routeParams.controller;
 		var pe_id = $routeParams.pe_id;
 		var func = $routeParams.func;
