@@ -530,8 +530,9 @@
 							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
 							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
 						WHERE per.pe_parents_id = 0
+						GROUP BY pe_id
 						ORDER BY per.pe_order_id DESC
-						GROUP BY pe_id";
+						";
 				$query = $this->db->query($sql, $bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
