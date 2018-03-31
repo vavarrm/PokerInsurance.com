@@ -110,20 +110,20 @@ class AdminOrder extends CI_Controller {
 			);
 			
 			$ary['fields'] = array(
-				'order_number'		=>array('field'=>'o.order_number','AS' =>'order_id'),
+				'order_number'		=>array('field'=>'t.order_number','AS' =>'order_id'),
 				'u_name'		=>array('field'=>'u.u_name','AS' =>'add user'),
-				'round'				=>array('field'=>'o.round','AS' =>'round'),
-				'players'			=>array('field'=>'o.players','AS' =>'players'),
-				'outs'				=>array('field'=>'o.outs','AS' =>'outs'),
-				'odds'				=>array('field'=>'o.odds','AS' =>'odds'),
-				'pot'				=>array('field'=>'o.pot','AS' =>'pot'),
-				'maximun'			=>array('field'=>'o.maximun','AS' =>'maximun'),
-				'buy_amount'		=>array('field'=>'o.buy_amount','AS' =>'buy_amount'),
-				'insured_amount'	=>array('field'=>'o.insured_amount','AS' =>'insured_amount'),
-				'result'			=>array('field'=>'o.result','AS' =>'result'),
-				'pay_amount'		=>array('field'=>'o.pay_amount','AS' =>'pay_amount'),
-				'income'			=>array('field'=>'(CASE result  WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount  END ) AS income ','AS' =>'income'),
-				'add_datetime'		=>array('field'=>'o.add_datetime','AS' =>'add_datetime'),
+				'round'				=>array('field'=>'t.round','AS' =>'round'),
+				'players'			=>array('field'=>'t.players','AS' =>'players'),
+				'outs'				=>array('field'=>'t.outs','AS' =>'outs'),
+				'odds'				=>array('field'=>'t.odds','AS' =>'odds'),
+				'pot'				=>array('field'=>'t.pot','AS' =>'pot'),
+				'maximun'			=>array('field'=>'t.maximun','AS' =>'maximun'),
+				'buy_amount'		=>array('field'=>'t.buy_amount','AS' =>'buy_amount'),
+				'insured_amount'	=>array('field'=>'t.insured_amount','AS' =>'insured_amount'),
+				'result'			=>array('field'=>'t.result','AS' =>'result'),
+				'pay_amount'		=>array('field'=>'t.pay_amount','AS' =>'pay_amount'),
+				'income'			=>array('field'=>'(CASE result  WHEN "pay" THEN (0-t.pay_amount) ELSE t.buy_amount  END ) AS income ','AS' =>'income'),
+				'add_datetime'		=>array('field'=>'t.add_datetime','AS' =>'add_datetime'),
 			);
 			
 			$ary['subtotal'] = array(

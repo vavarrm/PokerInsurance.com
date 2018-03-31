@@ -128,7 +128,7 @@ class CI_Model {
 					{
 						if($value['value']!='')
 						{
-							$where .=sprintf(" AND `add_datetime` %s ?", $value['operator']);					
+							$where .=sprintf(" AND t.`add_datetime` %s ?", $value['operator']);					
 							$bind[] = $value['value'];
 						}
 					}elseif($value['operator'] =='like'){
