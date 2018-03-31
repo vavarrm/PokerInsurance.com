@@ -77,7 +77,7 @@ class AdminOrder extends CI_Controller {
 				}
 			}
 			
-			$ary['order'] = (empty($this->request['order']))?array("o.order_id"=>'DESC'):$this->request['order'];
+			$ary['order'] = (empty($this->request['order']))?array("t.order_id"=>'DESC'):$this->request['order'];
 		    
 			$form['datetimeSearchControl'] = true;
 
