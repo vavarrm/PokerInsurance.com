@@ -60,8 +60,10 @@
 							<input  type="search"  ng-model="data.table_search.datetime_end"   ng-init="dateSearchInit('date_end');"  ng-enter="searchClick();"  class="form-control input-sm date_end" placeholder="迄" >&nbsp;&nbsp;&nbsp;
 						</label>
 						<label ng-if="data.table_form.datetimeSearchControl  && user_terminal =='cellPhone'" >
-							<input type="datetime-local"  ng-model="data.table_search.datetime_start"   class="form-control date_start input-sm" >&nbsp;&nbsp;~&nbsp;
-							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >&nbsp;&nbsp;&nbsp;
+							<input type="datetime-local"  ng-model="data.table_search.datetime_start"   class="form-control date_start input-sm" >
+						</label>
+						<label ng-if="data.table_form.datetimeSearchControl  && user_terminal =='cellPhone'" >
+							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >
 						</label>
 						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
 							<font style="vertical-align: inherit;">
