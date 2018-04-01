@@ -56,8 +56,8 @@
 							<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;" >日期：</font>
 							</font>
-							<input  type="search" ng-model="data.table_search.datetime_start" ng-init="dateSearchInit('date_start');"  ng-enter="searchClick();"  class="form-control input-sm date_start" placeholder="起" >&nbsp;&nbsp;~&nbsp;
-							<input  type="search"  ng-model="data.table_search.datetime_end"   ng-init="dateSearchInit('date_end');"  ng-enter="searchClick();"  class="form-control input-sm date_end" placeholder="迄" >&nbsp;&nbsp;&nbsp;
+							<input  type="search" ng-model="data.table_search.datetime_start" ng-init="dateTimeSearchInit ('date_start');"  ng-enter="searchClick();"  class="form-control input-sm date_start" placeholder="起" >&nbsp;&nbsp;~&nbsp;
+							<input  type="search"  ng-model="data.table_search.datetime_end"   ng-init="dateTimeSearchInit ('date_end');"  ng-enter="searchClick();"  class="form-control input-sm date_end" placeholder="迄" >&nbsp;&nbsp;&nbsp;
 						</label>
 						<label ng-if="data.table_form.datetimeSearchControl  && user_terminal =='cellPhone'" >
 							<font style="vertical-align: inherit;">
@@ -74,6 +74,29 @@
 							</font>
 							<input type="search" ng-model="data.table_search[key]"  ng-enter="searchClick();"  class="form-control input-sm" placeholder="" >&nbsp;&nbsp;&nbsp;
 						</label>
+						<label ng-if="data.table_form.dateSearchControl && user_terminal =='pc'" >
+							<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;" >日期：</font>
+							</font>
+							<input  type="search" ng-model="data.table_search.datetime_start" ng-init="dateSearchInit('date_start');"  ng-enter="searchClick();"  class="form-control input-sm date_start" placeholder="起" >&nbsp;&nbsp;~&nbsp;
+							<input  type="search"  ng-model="data.table_search.datetime_end"   ng-init="dateSearchInit('date_end');"  ng-enter="searchClick();"  class="form-control input-sm date_end" placeholder="迄" >&nbsp;&nbsp;&nbsp;
+						</label>
+						<label ng-if="data.table_form.dateSearchControl  && user_terminal =='cellPhone'" >
+							<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;" >日期：</font>
+							</font>
+							<input type="datetime-local"  ng-model="data.table_search.datetime_start"   class="form-control date_start input-sm" >~
+						</label>
+						<label ng-if="data.table_form.dateSearchControl  && user_terminal =='cellPhone'" >
+							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >
+						</label>
+						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
+							<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
+							</font>
+							<input type="search" ng-model="data.table_search[key]"  ng-enter="searchClick();"  class="form-control input-sm" placeholder="" >&nbsp;&nbsp;&nbsp;
+						</label>
+						
 						<label ng-repeat="(key, value) in data.table_form.selectSearchControl">
 							<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>

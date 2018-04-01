@@ -128,7 +128,14 @@ class CI_Model {
 					{
 						if($value['value']!='')
 						{
-							$where .=sprintf(" AND t.`add_datetime` %s ?", $value['operator']);					
+							$field =($value['field'] =="")?'add_datetime':$value['field'];
+							if($value['format'] =="")
+							{
+								$where .=sprintf(" AND t.%s %s ?",$field, $value['operator']);	
+							}else
+							{
+								$where .=sprintf(" AND DATE_FORMAT(t.%s, '%s') %s ?",$field ,$value['format'], $value['operator']);	
+							}
 							$bind[] = $value['value'];
 						}
 					}elseif($value['operator'] =='like'){
@@ -139,6 +146,10 @@ class CI_Model {
 					elseif($value['operator'] =='IS')
 					{
 						$where .=sprintf(" %s  %s IS NULL ", $value['logic'], $key);	
+					}
+					elseif($value['operator'] =='IS NOT')
+					{
+						$where .=sprintf(" %s  %s IS NOT NULL ", $value['logic'], $key);	
 					}
 					else
 					{

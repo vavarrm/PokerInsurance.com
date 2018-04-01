@@ -112,7 +112,7 @@
 				$sql =' SELECT 
 							SUM((CASE result WHEN "pay" THEN (0-o.pay_amount) ELSE o.buy_amount END )) AS income , min(`add_datetime`) AS startdatetime , DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s") AS enddatetime 
 						FROM texasholdem_insurance_order AS o 
-						WHERE TIMESTAMPDIFF(SECOND,`add_datetime`,NOW()) <=86400';
+						WHERE TIMESTAMPDIFF(SECOND,`add_datetime`,NOW()) <=86400 AND checkout_date IS NOT NULL';
 				$query = $this->db->query($sql);
 				if($error['message'] !="")
 				{

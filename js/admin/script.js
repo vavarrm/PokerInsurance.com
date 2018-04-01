@@ -389,11 +389,6 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		}
 	}
 	
-	$scope.dateSearchInit = function(c)
-	{
-	
-	}
-	
 	$scope.$watch('data.table_search.date_start', function(newValue, oldValue) 
 	{
 		if(newValue > $scope.data.table_search.date_end && typeof newValue !="undefined" && newValue !="null")
@@ -557,11 +552,18 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		}
 	}
 		
-	$scope.dateSearchInit = function(c)
+	$scope.dateTimeSearchInit = function(c)
 	{
 		$( "."+c ).datetimepicker({
 			"dateFormat":"yy-mm-dd",
 			"timeFormat": "HH:mm"
+		})
+	}	
+	
+	$scope.dateSearchInit = function(c)
+	{
+		$( "."+c ).datepicker({
+			"dateFormat":"yy-mm-dd"
 		})
 	}	
 	
