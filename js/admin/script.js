@@ -559,13 +559,60 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		
 	$scope.dateSearchInit = function(c)
 	{
-		console.log(c);
 		$( "."+c ).datetimepicker({
 			"dateFormat":"yy-mm-dd",
 			"timeFormat": "HH:mm"
 		})
 	}	
-		
+	
+	$scope.clickbutton = function(row)
+	{
+		if($scope.ajaxload ==true)
+		{
+			var obj =
+			{
+				'message' :'loading...',
+			};
+			dialog(obj);
+			return false;
+		}
+		$scope.ajaxload = true;
+		var obj={
+		}
+		var promise = apiService.adminApi(row.pe_control,row.pe_func, obj, row.pe_id);
+		promise.then
+		(
+			function(r) 
+			{
+				$scope.ajaxload = false;
+				if(r.data.status =="200")
+				{
+					var obj =
+					{
+						'message' :r.data.message,
+					};
+					dialog(obj);
+					$scope.search();
+				}else
+				{
+					var obj =
+					{
+						'message' :r.data.message,
+					};
+					dialog(obj);
+				}
+				
+			},
+			function() {
+				var obj ={
+					'message' :'system error'
+				};
+				dialog(obj);
+				$scope.ajaxload = false;
+			}
+		)
+	}
+	
 	$scope.search = function()
 	{
 		if( typeof $('.date_start').val() !="undefined")
@@ -607,6 +654,7 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 					$scope.data.table_pageinfo.end=(parseInt($scope.data.table_pageinfo.p)-1)*parseInt($scope.data.table_pageinfo.limit)+parseInt($scope.data.table_row.length);
 					$scope.data.table_fields = r.data.body.fields;
 					$scope.data.table_action_list = r.data.body.action_list;
+					$scope.data.table_button_list = r.data.body.button_list;
 					$scope.data.form.table_add = r.data.body.form.table_add;
 					$scope.data.form.table_del = r.data.body.form.table_del;
 					$scope.data.form.table_edit = r.data.body.form.table_edit;

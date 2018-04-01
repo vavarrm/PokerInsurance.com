@@ -88,6 +88,9 @@
 						<button type="submit" ng-click="searchReset()" class="btn btn-primary">reset</button>
 					</div>
 				</div>
+				<div class="col-sm-12" ng-if="data.table_button_list.length >0">
+					<button ng-repeat="row in data.table_button_list"  ng-click="clickbutton(row)" class="btn btn-success" ng-bind="row.pe_name"></button>
+				</div>
 			</div>
 			<div class="row"  ng-show="data.table_row.length >0">
 				<div class="col-sm-12" ng-init="tableListInit()">

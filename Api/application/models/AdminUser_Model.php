@@ -279,6 +279,45 @@
 			}
 		}
 		
+		public function getAdminListButton($ary)
+		{
+			try
+			{
+				$sql ="	SELECT 
+							per.pe_name,
+							per.pe_func,
+							per.pe_id,
+							per.pe_control,
+							per.pe_page
+						FROM admin_user AS au 
+							INNER JOIN admin_role_permissions_link AS link ON au.ar_id =  link.ar_id
+							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
+						WHERE per.pe_parents_id = ? AND au.ad_id=? AND pe_type ='button'";
+				$bind = array(
+					$ary['pe_id'],
+					$ary['ad_id']
+				);
+				$query = $this->db->query($sql, $bind);
+				$error = $this->db->error();
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'001'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				$rows = $query->result_array();
+				return $rows;
+			}catch(MyException $e)
+			{
+				throw $e;
+			}
+		}
+		
 		public function getAdminPermissions($ary)
 		{
 
@@ -566,7 +605,7 @@
 									pe_control,
 									pe_page,
 									pe_icon
-								FROM permissions WHERE pe_parents_id =? AND pe_type='menu'";
+								FROM permissions WHERE pe_parents_id =? AND pe_type='menu' ORDER BY pe_order_id DESC";
 						$bind = array(
 							$value['pe_id']
 						);

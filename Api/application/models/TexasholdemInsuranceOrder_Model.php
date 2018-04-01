@@ -27,6 +27,36 @@
 			
 		}
 		
+		public function checkOut()
+		{
+			try
+			{
+				$sql ="	UPDATE texasholdem_insurance_order
+						SET checkout_date =NOW()
+						";
+				$this->db->query($sql);
+				$error = $this->db->error();
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				
+				$affected_rows = $this->db->affected_rows();
+				return $affected_rows;
+			}	
+			catch(MyException $e)
+			{
+				throw $e;
+			}
+		}
+		
 		public function updataResult($ary)
 		{
 			try

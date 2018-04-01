@@ -136,6 +136,10 @@ class CI_Model {
 						$where .=sprintf(" %s %s LIKE ?", $value['logic'], $key, $value['operator']);							
 						$bind[] = "%".$value['value']."%";
 					}
+					elseif($value['operator'] =='IS')
+					{
+						$where .=sprintf(" %s  %s IS NULL ", $value['logic'], $key);	
+					}
 					else
 					{
 						$where .=sprintf(" %s %s %s ?", $value['logic'], $key, $value['operator']);					
