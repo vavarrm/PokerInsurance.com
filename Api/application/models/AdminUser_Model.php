@@ -92,7 +92,7 @@
 					$ary['ad_id']
 				);
 				
-				$sql ="SELECT  ad_ar_id FROM admin_user WHERE ad_id = ?";
+				$sql ="SELECT  ar_id FROM admin_user WHERE ad_id = ?";
 				$query = $this->db->query($sql, $bind);
 				$error = $this->db->error();
 				if($error['message'] !="")
@@ -107,7 +107,7 @@
 				}
 				$row = $query->row_array();
 				$query->free_result();
-				if($row['ad_ar_id'] =='1')
+				if($row['ar_id'] =='1')
 				{
 					$MyException = new MyException();
 					$array = array(
@@ -156,12 +156,12 @@
 					throw $MyException;
 				}
 				
-				$sql ="INSERT INTO admin_user (ad_account, ad_passwd, ad_ar_id)
+				$sql ="INSERT INTO admin_user (ad_account, ad_passwd, ar_id)
 					  VALUES (?,MD5(?),?)";
 				$bind = array(
 					$ary['ad_account'],
 					$ary['ad_passwd'],
-					$ary['ad_ar_id'],
+					$ary['ar_id'],
 				);
 				$this->db->query($sql, $bind); 
 				$output['affected_rows'] += $this->db->affected_rows();
@@ -209,7 +209,7 @@
 							ad_id, 
 							ad_account, 
 							ad_passwd ,
-							ad_ar_id ,
+							ar_id ,
 							ad_status
 						FROM admin_user 
 						WHERE ad_account =?";
@@ -250,7 +250,7 @@
 							per.pe_control,
 							per.pe_page
 						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
+							INNER JOIN admin_role_permissions_link AS link ON au.ar_id =  link.ar_id
 							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
 						WHERE per.pe_parents_id = ? AND au.ad_id=? AND pe_type ='action'";
 				$bind = array(
@@ -281,6 +281,7 @@
 		
 		public function getAdminPermissions($ary)
 		{
+
 			try
 			{
 				$sql ="	SELECT 
@@ -288,16 +289,18 @@
 							per.pe_func,
 							per.pe_id,
 							per.pe_control,
-							per.pe_page
+							per.pe_page,
+							au.ad_id
 						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
+							INNER JOIN admin_role_permissions_link AS link ON au.ar_id =  link.ar_id
 							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
-						WHERE per.pe_id = ? AND au.ad_id=?";
+						WHERE au.ad_id = ? AND per.pe_id = ? ";
 				$bind = array(
-					$ary['pe_id'],
-					$ary['ad_id']
+					$ary['ad_id'],
+					$ary['pe_id']
 				);
 				$query = $this->db->query($sql, $bind);
+			
 				$error = $this->db->error();
 				if($error['message'] !="")
 				{
@@ -471,7 +474,7 @@
 				$sql ="	SELECT ad_id AS id," 
 						.$fields.	
 						" FROM
-							admin_user AS au INNER JOIN admin_role AS ar ON au.ad_ar_id = ar.ar_id
+							admin_user AS au INNER JOIN admin_role AS ar ON au.ar_id = ar.ar_id
 						";
 				$ary['sql'] =$sql;
 				$output = $this->getListFromat($ary);
@@ -513,7 +516,7 @@
 			}
 		}
 		
-		public function getAdminMenuList()
+		public function getAdminMenuList($ary)
 		{
 			try
 			{
@@ -527,12 +530,16 @@
 							per.pe_order_id ,
 							per.pe_icon 
 						FROM admin_user AS au 
-							INNER JOIN admin_role_permissions_link AS link ON au.ad_ar_id =  link.ar_id
+							INNER JOIN admin_role_permissions_link AS link ON au.ar_id =  link.ar_id
 							INNER JOIN permissions AS per ON link.pe_id = per.pe_id
-						WHERE per.pe_parents_id = 0
+						WHERE per.pe_parents_id = 0 AND  au.ad_id =? AND link.ar_id =?
 						GROUP BY pe_id
 						ORDER BY per.pe_order_id DESC
 						";
+				$bind =array(
+					$ary['ad_id'],
+					$ary['ar_id'],
+				);
 				$query = $this->db->query($sql, $bind);
 				$error = $this->db->error();
 				if($error['message'] !="")

@@ -5,6 +5,7 @@ class MyFunc
 	public function __construct() 
 	{
 		$this->CI =& get_instance();
+		$this->CI->load->library('session');
 		$this->CI->load->model('AdminUser_Model', 'admin_user');
 	}
 	
@@ -113,7 +114,13 @@ class MyFunc
 	{
 		$randomKey =  $this->CI->token->privateDecrypt($rsa_randomKey);
 		$decrypt_data = $this->CI->token->AesDecrypt($encrypt_data , $randomKey );
+						
+	
 		$data = unserialize($decrypt_data);
+		if(empty($data))
+		{
+			// session_destroy();
+		}
 		return $data;
 	}
 	
@@ -132,6 +139,12 @@ class MyFunc
 		$urlRsaRandomKey =$sess;
 		$encrypt_data = $this->CI->session->userdata('encrypt_admin_user_data');
 		$decrypt_data= $this->decryptUser($urlRsaRandomKey, $encrypt_data);
+		// var_dump(	$encrypt_data);
+		$data = unserialize($decrypt_data);
+		if(empty($data))
+		{
+			// session_destroy();
+		}
 		return $decrypt_data;
 	}
 	
@@ -160,6 +173,7 @@ class MyFunc
 			
 			$ary = array(
 				'ad_id'	=>$admin_data['ad_id'],
+				'ar_id'	=>$admin_data['ar_id'],
 				'pe_id'	=>$get['pe_id']
 			);
 			$row = $this->CI->admin_user->getAdminPermissions($ary);

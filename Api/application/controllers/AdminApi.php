@@ -8,6 +8,7 @@ class AdminApi extends CI_Controller {
 	{
 		parent::__construct();	
 		$this->load->model('AdminUser_Model', 'admin_user');
+		$this->load->library('session');
 		$this->response_code = $this->language->load('admin_response');
 		$this->request = json_decode(trim(file_get_contents('php://input'), 'r'), true);
 		$this->get = $this->input->get();
@@ -97,6 +98,7 @@ class AdminApi extends CI_Controller {
 			$data = array(
 				'ad_id'  =>$admin_user['ad_id'],
 				'account'  =>$admin_user['ad_account'],
+				'ar_id'  =>$admin_user['ar_id'],
 			);
 			$encrypt_user_data = $this->token->AesEncrypt(serialize($data), $randomKey);
 			$this->session->set_userdata('encrypt_admin_user_data', $encrypt_user_data);
@@ -132,7 +134,7 @@ class AdminApi extends CI_Controller {
 			$output['body']['socket_push_data'] = array(
 				'order_total'	=>10
 			);
-			$data = $this->admin_user->getAdminMenuList();
+			$data = $this->admin_user->getAdminMenuList($decrypt_data);
 			$output['body']['menu_list'] =$data['list'];
 		}catch(MyException $e)
 		{

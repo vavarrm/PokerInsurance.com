@@ -379,10 +379,7 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 	
 	$scope.dateSearchInit = function(c)
 	{
-		$( "."+c ).datetimepicker({
-			"dateFormat":"yy-mm-dd",
-			"timeFormat": "HH:mm"
-		});
+	
 	}
 	
 	$scope.$watch('data.table_search.date_start', function(newValue, oldValue) 
