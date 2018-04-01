@@ -51,21 +51,18 @@
 					</div>
 				</div>
 				<div class="col-sm-10">
-				<input   ng-model="data.table_search.date_end"      ng-enter="searchClick();"  class="form-control input-sm datetimepicker" placeholder="迄" >
 					<div>
-						<label ng-show="data.table_form.datetimeSearchControl" >
+						<label ng-if="data.table_form.datetimeSearchControl && user_terminal =='pc'" >
 							<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;" >日期：</font>
 							</font>
-							<input   ng-model="data.table_search.date_start"  ng-enter="searchClick();"  class="form-control input-sm datetimepicker" placeholder="起" >&nbsp;&nbsp;~&nbsp;
-							&nbsp;&nbsp;&nbsp;
+							<input  type="search" ng-model="data.table_search.datetime_start" ng-init="dateSearchInit('date_start');"  ng-enter="searchClick();"  class="form-control input-sm date_start" placeholder="起" >&nbsp;&nbsp;~&nbsp;
+							<input  type="search"  ng-model="data.table_search.datetime_end"   ng-init="dateSearchInit('date_end');"  ng-enter="searchClick();"  class="form-control input-sm date_end" placeholder="迄" >&nbsp;&nbsp;&nbsp;
 						</label>
-						<!--
-						<label ng-if="data.table_form.datetimeSearchControl" >
-							<input type="datetime-local"  ng-model="data.table_search.datetime_start"  ng-enter="searchClick();"  class="form-control date_start input-sm" >&nbsp;&nbsp;~&nbsp;
-							<input type="datetime-local"  ng-model="data.table_search.datetime_end"    ng-enter="searchClick();"  class="form-control date_end input-sm"  >&nbsp;&nbsp;&nbsp;
+						<label ng-if="data.table_form.datetimeSearchControl  && user_terminal =='cellPhone'" >
+							<input type="datetime-local"  ng-model="data.table_search.datetime_start"   class="form-control date_start input-sm" >&nbsp;&nbsp;~&nbsp;
+							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >&nbsp;&nbsp;&nbsp;
 						</label>
-						-->
 						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
 							<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
@@ -137,11 +134,3 @@
 		</div>
 	</div>
 </div>
-<script>
-	$(function() {
-		$( ".datetimepicker" ).datetimepicker({
-			"dateFormat":"yy-mm-dd",
-			"timeFormat": "HH:mm"
-		})
-	})
-</script>

@@ -1,4 +1,12 @@
 'use strict';
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+	var user_terminal = "cellPhone";
+} else if (/(Android)/i.test(navigator.userAgent)) {
+	var user_terminal = "cellPhone";
+} else {
+    var user_terminal = "pc";
+};
+// user_terminal = "cellPhone";
 var adminApp = angular.module("adminApp", ['ngRoute', 'ngCookies']);
 var CURRENT_URL,
 	$BODY,
@@ -218,6 +226,8 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 		table_action_list :{},
 		row:{}
 	};
+	$scope.user_terminal = user_terminal;
+
 	$scope.edit = function(id)
 	{
 		var url ="/admin/views/form_panel.html#!/formEdit/"+$scope.data.form.table_edit+id+'/'+$routeParams.pe_id ;
@@ -338,6 +348,8 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 			}
 		)
 	}
+	
+
 	
 	$scope.addFormInit = function(initFunc)
 	{
@@ -544,6 +556,15 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 			)
 		}
 	}
+		
+	$scope.dateSearchInit = function(c)
+	{
+		console.log(c);
+		$( "."+c ).datetimepicker({
+			"dateFormat":"yy-mm-dd",
+			"timeFormat": "HH:mm"
+		})
+	}	
 		
 	$scope.search = function()
 	{
