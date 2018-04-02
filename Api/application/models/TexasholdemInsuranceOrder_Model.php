@@ -32,7 +32,7 @@
 			try
 			{
 				$sql ="	UPDATE texasholdem_insurance_order
-						SET checkout_date =NOW()
+						SET checkout_date =NOW() WHERE  checkout_date IS NULL
 						";
 				$this->db->query($sql);
 				$error = $this->db->error();
