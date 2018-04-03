@@ -2,6 +2,37 @@
 	<div ng-show="step==1" id="step">
 		<form  class="form-row">
 			<h4 class="panel-title"></h4>
+			<div class="form-group col-12">
+				<label >玩家人数/All In Players</label>
+				<div class="col-12">
+					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==2?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=2;" role="button" value="2">
+					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==3?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=3;" role="button" value="3">
+					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==4?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=4;"role="button"  value="4">
+				</div>
+			</div>
+			<div class="form-group col-12">
+				<label >玩家人数/All In Players</label>
+				<div class="col-12">
+					<input type="button" class="btn btn-primary text-white col-4" ng-disabled="input.round_disabled || input.players>3 || input.players===undefined" ng-class="input.round=='flop' ? 'btn-danger': ''"   ng-click="input.round='flop';" role="button" value="翻牌 flop">
+					<input type="button" class="btn btn-primary text-white col-4" ng-disabled="input.round_disabled || input.players>3 || input.players===undefined" ng-class="input.round=='turn' ? 'btn-danger': ''"   ng-click="input.round='turn';" role="button" value="转牌 turn">
+				</div>
+			</div>
+			<div class="form-group col-12">
+				<label >补牌数/Outs</label>
+				<input type="number"  min="1"    ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
+			</div>
+			<div ng-show="false" class="form-group col-6">
+				<label >賠率 odds</label><br>
+				<label class="alert">{{odds[input.outs]}}</label>
+			</div>
+			<div class="form-group col-6">
+				<label >底池/Pot</label>
+				<input type="number" step="0.5" min="0"  ng-model="input.pot" class="form-control" ng-disabled="input.players>3 || input.round===undefined || odds[input.outs]===undefined || input.pot_disabled" placeholder="底池/Pot">
+			</div>
+			<div class="form-group col-6">
+				<label>保金/buy：</label>
+				<input class="form-control" placeholder="保金/buy"  type="number" step="0.1"   ng-model="input.amount" ng-init="input.amount =0" ng-disabled="input.pot===undefined|| input.round===undefined || odds[input.outs]===undefined || input.pot ===null " type="text">
+			</div>
 			<table class="table table-striped  table-dark col-12">
 				<tbody>
 					<tr>
@@ -30,37 +61,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="form-group col-12">
-				<label >玩家人数/All In Players</label>
-				<div class="col-12">
-					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==2?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=2;" role="button" value="2">
-					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==3?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=3;" role="button" value="3">
-					<input type="button" class="btn btn-primary text-white col-3" ng-class="input.players==4?'btn-danger':''" ng-disabled="input.players_disabled"  ng-click="input.players=4;"role="button"  value="4">
-				</div>
-			</div>
-			<div class="form-group col-12">
-				<label >玩家人数/All In Players</label>
-				<div class="col-12">
-					<input type="button" class="btn btn-primary text-white col-4" ng-disabled="input.round_disabled || input.players>3 || input.players===undefined" ng-class="input.round=='flop' ? 'btn-danger': ''"   ng-click="input.round='flop';" role="button" value="翻牌/flop">
-					<input type="button" class="btn btn-primary text-white col-4" ng-disabled="input.round_disabled || input.players>3 || input.players===undefined" ng-class="input.round=='turn' ? 'btn-danger': ''"   ng-click="input.round='turn';" role="button" value="转牌/turn">
-				</div>
-			</div>
-			<div class="form-group col-6">
-				<label >賠率 odds</label><br>
-				<label class="alert">{{odds[input.outs]}}</label>
-			</div>
-			<div class="form-group col-6">
-				<label >补牌数/Outs</label>
-				<input type="number"  min="1"    ng-model="input.outs" class="form-control col-md-12" ng-disabled="input.players>3 || input.round===undefined" placeholder="补牌数/Outs">
-			</div>
-			<div class="form-group col-6">
-				<label >底池/Pot</label>
-				<input type="number" step="0.5" min="0"  ng-model="input.pot" class="form-control" ng-disabled="input.players>3 || input.round===undefined || odds[input.outs]===undefined || input.pot_disabled" placeholder="底池/Pot">
-			</div>
-			<div class="form-group col-6">
-				<label>保金/buy：</label>
-				<input class="form-control" placeholder="保金/buy"  type="number" step="0.1"   ng-model="input.amount" ng-init="input.amount =0" ng-disabled="input.pot===undefined|| input.round===undefined || odds[input.outs]===undefined || input.pot ===null " type="text">
-			</div>
 			<div class="form-group col-12">
 				<label >结果/result</label>
 				<div  class="col-12">

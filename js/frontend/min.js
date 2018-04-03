@@ -319,7 +319,15 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 						'message' :'已储存/next Game',
 					};
 					dialog(obj);
-					$scope.input.confirm =true;
+					if($scope.input.round =="turn")
+					{
+						$scope.step=1;
+						$scope.input ={};
+					}else
+					{
+							
+						$scope.input.confirm =true;
+					}
 				}else
 				{
 					var obj =

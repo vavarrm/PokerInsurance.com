@@ -113,13 +113,16 @@ class CI_Model {
 				'order',
 				'sql',
 				'fields',
-				'subtotal'
+				'subtotal',
+				'group_by',
+				
 			);
 			$limit = sprintf(" LIMIT %d, %d",abs($ary['p']-1)*$ary['limit'],$ary['limit']);
 			if(is_array($ary))
 			{
 				foreach($ary as $key => $value)
 				{
+					
 					if(in_array($key, $gitignore) ||  $value['value'] ==="" )	
 					{
 						continue;
@@ -138,6 +141,10 @@ class CI_Model {
 							}
 							$bind[] = $value['value'];
 						}
+					}elseif($key =="mounth"){
+						
+						$where .=sprintf(" AND DATE_FORMAT(t.%s, '%s') %s ?",$value['field'] , '%m', $value['operator']);	
+						$bind[] = $value['value'];
 					}elseif($value['operator'] =='like'){
 							
 						$where .=sprintf(" %s %s LIKE ?", $value['logic'], $key, $value['operator']);							
@@ -170,9 +177,14 @@ class CI_Model {
 			}
 			
 			
+			if(!empty($ary['group_by']))
+			{
+				$group_by ="GROUP BY ".$ary['group_by'];
+			}
+			
 			
 			$sql =$ary['sql'];
-			$search_sql = $sql.$where.$order.$limit ;
+			$search_sql = $sql.$where.$group_by.$order.$limit ;
 			$query = $this->db->query($search_sql, $bind);
 			$error = $this->db->error();
 			if($error['message'] !="")
@@ -200,7 +212,7 @@ class CI_Model {
 				}
 				$temp =",".join(',', $temp);
 			}
-			$total_sql = sprintf("SELECT COUNT(*)  AS total  %s FROM(%s) AS t",$temp,$sql.$where) ;
+			$total_sql = sprintf("SELECT COUNT(*)  AS total  %s FROM(%s) AS t",$temp,$sql.$where.$group_by) ;
 			$query = $this->db->query($total_sql, $bind);
 			$error = $this->db->error();
 			if($error['message'] !="")

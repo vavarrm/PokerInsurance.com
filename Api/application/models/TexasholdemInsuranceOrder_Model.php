@@ -22,6 +22,44 @@
 		}
 		
 		
+		public function getDayReport($ary)
+		{
+			try
+			{
+				if(empty($ary))
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>'no setParams' ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				if(!empty($ary['fields']))
+				{
+					foreach($ary['fields'] as $value)
+					{
+						$temp[] = $value['field'];
+					}
+				}
+				
+				$fields = join(',' ,$temp);
+				$sql ="	SELECT order_id AS id," 
+						.$fields.	
+						" FROM
+							texasholdem_insurance_order AS t 
+						 ";
+				$ary['sql'] =$sql;
+				$output = $this->getListFromat($ary);
+				return 	$output  ;
+			}catch(MyException $e)
+			{
+				throw $e;
+			}
+		}
+		
 		public function  subTotal()
 		{
 			
@@ -102,6 +140,42 @@
 			catch(MyException $e)
 			{
 				throw $e;
+			}
+		}
+		
+		public function getCheckOutByDay($day="")
+		{
+			try
+			{
+				$sql =" SELECT 
+							ROUND(SUM((CASE result WHEN 'pay' THEN (0-o.pay_amount) ELSE o.buy_amount END )),2) AS income,
+							ROUND(SUM(o.buy_amount),2) AS buy_amount,
+							ROUND(SUM(o.pay_amount),2) AS pay_amount,
+							COUNT(o.order_id) AS total,
+							DATE_FORMAT(checkout_date,'%Y-%m-%d') AS checkout_date
+						FROM 
+							texasholdem_insurance_order AS o 
+						WHERE 
+							DATE_FORMAT(checkout_date,'%Y%m%d')  = DATE_FORMAT(NOW(),'%Y%m%d')";
+				$query = $this->db->query($sql);
+				if($error['message'] !="")
+				{
+					$MyException = new MyException();
+					$array = array(
+						'el_system_error' 	=>$error['message'] ,
+						'status'	=>'000'
+					);
+					
+					$MyException->setParams($array);
+					throw $MyException;
+				}
+				$row  = $query->row_array();
+				$query->free_result();
+				return $row ;
+				
+			}catch(MyException $e)
+			{
+				throw $MyException;
 			}
 		}
 		

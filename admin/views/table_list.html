@@ -11,8 +11,8 @@
 		<div class="dataTables_wrapper form-inline dt-bootstrap no-footer" >
 			<div class="row tile_count" >
 				<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" ng-repeat="(key,row) in data.table_subtotal_fields ">
-					<span class="count_top"><i class="fa fa-dollar"></i>{{row.AS}}</span>
-					<div class="count" ng-bind="data.table_subtotal_data[key]">2500</div>
+					<span class="count_top">{{row.AS}}</span>
+					<div class="count" ng-bind="data.table_subtotal_data[key]"></div>
 				</div>	
 			</div>
 			<div class="row">
@@ -52,6 +52,21 @@
 				</div>
 				<div class="col-sm-10">
 					<div>
+						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
+							<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
+							</font>
+							<input type="{{value.type}}" ng-model="data.table_search[key]"   ng-enter="searchClick();"  class="form-control input-sm" placeholder="" >&nbsp;&nbsp;&nbsp;
+						</label>
+						<label ng-repeat="(key, value) in data.table_form.selectSearchControl">
+							<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
+							</font>
+							<select  ng-change="select_search(key,data.table_search[key])" ng-model="data.table_search[key]"  ng-enter="searchClick();"  class="form-control" >
+								<option value="">please select</option>
+								<option ng-repeat="option in value" ng-init="data.table_search[key]=option.default" value="{{option.value}}" ng-bind="option.text"></option>
+							</select>&nbsp;&nbsp;&nbsp;
+						</label>
 						<label ng-if="data.table_form.datetimeSearchControl && user_terminal =='pc'" >
 							<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;" >日期：</font>
@@ -67,12 +82,6 @@
 						</label>
 						<label ng-if="data.table_form.datetimeSearchControl  && user_terminal =='cellPhone'" >
 							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >
-						</label>
-						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
-							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
-							</font>
-							<input type="search" ng-model="data.table_search[key]"  ng-enter="searchClick();"  class="form-control input-sm" placeholder="" >&nbsp;&nbsp;&nbsp;
 						</label>
 						<label ng-if="data.table_form.dateSearchControl && user_terminal =='pc'" >
 							<font style="vertical-align: inherit;">
@@ -90,23 +99,7 @@
 						<label ng-if="data.table_form.dateSearchControl  && user_terminal =='cellPhone'" >
 							<input type="datetime-local"  ng-model="data.table_search.datetime_end"     class="form-control date_end input-sm"  >
 						</label>
-						<label ng-repeat="(key, value) in data.table_form.inputSearchControl">
-							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
-							</font>
-							<input type="search" ng-model="data.table_search[key]"  ng-enter="searchClick();"  class="form-control input-sm" placeholder="" >&nbsp;&nbsp;&nbsp;
-						</label>
-						
-						<label ng-repeat="(key, value) in data.table_form.selectSearchControl">
-							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;" ng-bind="key+':'"></font>
-							</font>
-							<select  ng-change="select_search(key,data.table_search[key])" ng-model="data.table_search[key]" ng-init="data.table_search[key]==''" ng-enter="searchClick();"  class="form-control" >
-								<option value="">please select</option>
-								<option ng-repeat="option in value" value="{{option.value}}" ng-bind="option.text"></option>
-							</select>&nbsp;&nbsp;&nbsp;
-						</label>
-						
+
 						<button type="submit" ng-click="searchClick()" class="btn btn-success">search</button>
 						<button type="submit" ng-click="searchReset()" class="btn btn-primary">reset</button>
 					</div>
