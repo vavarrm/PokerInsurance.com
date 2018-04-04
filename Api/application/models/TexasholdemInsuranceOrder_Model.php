@@ -152,6 +152,8 @@
 							ROUND(SUM(o.buy_amount),2) AS buy_amount,
 							ROUND(SUM(o.pay_amount),2) AS pay_amount,
 							COUNT(o.order_id) AS total,
+							MIN(add_datetime) AS start,
+							MAX(add_datetime) AS end,
 							DATE_FORMAT(checkout_date,'%Y-%m-%d') AS checkout_date
 						FROM 
 							texasholdem_insurance_order AS o 

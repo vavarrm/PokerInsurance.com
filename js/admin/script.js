@@ -578,41 +578,66 @@ var MainController = function($scope, $routeParams, apiService, $templateCache, 
 			dialog(obj);
 			return false;
 		}
-		$scope.ajaxload = true;
-		var obj={
-		}
-		var promise = apiService.adminApi(row.pe_control,row.pe_func, obj, row.pe_id);
-		promise.then
-		(
-			function(r) 
-			{
-				$scope.ajaxload = false;
-				if(r.data.status =="200")
+		
+		var obj =
+		{
+			'message' :'please confirm',
+			buttons: 
+			[
 				{
-					var obj =
+					text: "yes",
+					click: function() 
 					{
-						'message' :r.data.message,
-					};
-					dialog(obj);
-					$scope.search();
-				}else
+						$scope.ajaxload = true;
+						var obj={
+						}
+						var promise = apiService.adminApi(row.pe_control,row.pe_func, obj, row.pe_id);
+						promise.then
+						(
+							function(r) 
+							{
+								$scope.ajaxload = false;
+								if(r.data.status =="200")
+								{
+									var obj =
+									{
+										'message' :r.data.message,
+									};
+									dialog(obj);
+									$scope.search();
+								}else
+								{
+									var obj =
+									{
+										'message' :r.data.message,
+									};
+									dialog(obj);
+								}
+								
+							},
+							function() {
+								var obj ={
+									'message' :'system error'
+								};
+								dialog(obj);
+								$scope.ajaxload = false;
+							}
+						)
+						$( this ).dialog( "close" );
+					}
+				},
 				{
-					var obj =
+					text: "close",
+					click: function() 
 					{
-						'message' :r.data.message,
-					};
-					dialog(obj);
+						$( this ).dialog( "close" );
+					}
 				}
-				
-			},
-			function() {
-				var obj ={
-					'message' :'system error'
-				};
-				dialog(obj);
-				$scope.ajaxload = false;
-			}
-		)
+			]
+		};
+		dialog(obj);
+		
+		
 	}
 	
 	$scope.search = function()
