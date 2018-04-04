@@ -161,10 +161,10 @@ class AdminOrder extends CI_Controller {
 		{
 			$total  = $this->order->checkOut();
 			
-			if($total>0 && $_SERVER['CI_ENV']!="development")
+			if($total>0)
 			{
 				$row= $this->order->getCheckOutByDay();
-				$smstex =sprintf("Insurance Income  Total %s <br> %s to %s", $row['income'], $row['start'] , $row['end'] );
+				$smstex =sprintf("Insurance Income  Total %s \n %s to %s", $row['income'], $row['start'] , $row['end'] );
 				$smstex = urlencode($smstex);
 				$gsm="85516995372;85512321402;85517684220;85511923080";
 				$url="http://client.mekongsms.com/api/postsms.aspx";
@@ -183,7 +183,7 @@ class AdminOrder extends CI_Controller {
 				@curl_setopt($ch, CURLOPT_POST, true);
 				@curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post)); 
 				@curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
-				$output = @curl_exec($ch); 
+				@curl_exec($ch); 
 				@curl_close($ch);
 			}
 			$output['message']='checkOut total:'.$total;
