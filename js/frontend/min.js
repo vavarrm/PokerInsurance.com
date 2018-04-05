@@ -173,6 +173,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 	
 	$scope.$watch('input.amount', function(newValue, oldValue)
 	{
+		console.log(newValue);
 		if(typeof newValue !="undefined" && newValue !=null)
 		{
 			if(newValue >$scope.input.i_maximum)
@@ -196,6 +197,16 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 			{
 				$scope.input.payamount =$scope.input.insuredamount-$scope.input.famount;
 			}
+		}
+		
+		if(newValue<0)
+		{
+			$scope.input.amount = oldValue;	
+			var obj =
+			{
+				'message' :'小於0/under 0',
+			};
+			dialog(obj);
 		}
 
 	});
