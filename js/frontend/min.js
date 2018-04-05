@@ -375,7 +375,10 @@ var LoginCtrl = function($scope ,$routeParams, apiService,$cookies)
 				$scope.ajaxload = false;
 				if(r.data.status =="200")
 				{
-					$cookies.put('usess', r.data.body.user_sess, { path: '/'});
+						var date = new Date();
+						date.setTime(date.getTime()+(7200*1000));
+						var expires = "; expires="+date.toGMTString();
+					$cookies.put('usess', r.data.body.user_sess, { path: '/',expires:expires});
 					location.href="/";
 				}else
 				{

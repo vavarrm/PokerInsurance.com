@@ -5,7 +5,6 @@ class MyFunc
 	public function __construct() 
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->library('session');
 		$this->CI->load->model('AdminUser_Model', 'admin_user');
 	}
 	
