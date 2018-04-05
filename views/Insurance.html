@@ -74,7 +74,7 @@
 				<input class="form-control" step="0.1"  ng-model="input.payamount" placeholder="賠付额/pay amount" ng-disabled="input.result ===undefined || input.payamount_disable" type="number">
 			</div>
 			<div class="form-group col-12" >
-				<input type="submit" ng-click="step=4;goTop();input.confirm=false;"  class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="(input.result == 'pay' && input.payamount==0) || input.pot==0 ||input.players >3 ||input.result===null || input.result===undefined ||  input.pot == null ||  input.result=='' || odds[input.outs]===undefined ">
+				<input type="submit" ng-click="step=4;goTop();input.confirm=false;"  class="col-md-12 btn btn-info" value="下一步/next" ng-disabled="(input.result == 'pay' && input.payamount==0) || input.pot==0 ||input.players >3 ||input.result===null || input.result===undefined ||  input.pot == null ||  input.result=='' || odds[input.outs]===undefined || input.amount == 0 || input.amount ==null ||input.amount===undefined">
 			</div>
 		</form>
 	</div>

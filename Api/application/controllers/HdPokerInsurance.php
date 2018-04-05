@@ -225,7 +225,8 @@ class HdPokerInsurance extends CI_Controller {
 				$insuredamount >$pot ||
 				$_odds['odds_value'] !=$odds ||
 				$result ==''||
-				$payamount > $pot 
+				$payamount > $pot ||
+				($result == "pay" && $amount==0)
 			){
 				$array = array(
 					'status'	=>'000'

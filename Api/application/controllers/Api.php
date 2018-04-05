@@ -24,7 +24,7 @@ class Api extends CI_Controller {
 			if($checkUser !="200")
 			{
 				$array = array(
-					'status'	=>$checkAdmin
+					'status'	=>$checkUser
 				);
 				$MyException = new MyException();
 				$MyException->setParams($array);

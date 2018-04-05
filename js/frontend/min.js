@@ -22,7 +22,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		{
 			var obj =
 			{
-				'message' :'系统忙禄中/system busy',
+				'message' :'confirm password no equit password',
 			};
 			dialog(obj);
 			return false;
@@ -67,7 +67,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 		{
 			$scope.input.i_maximum =Math.floor(newValue/$scope.odds[$scope.input.outs]*10)/10;
 			$scope.input.percentage50 =  Math.floor(newValue/2/$scope.odds[$scope.input.outs]*10)/10;
-			$scope.input.amount = $scope.input.i_maximum;
+			// $scope.input.amount = $scope.input.i_maximum;
 		}
 		
 	});
@@ -167,7 +167,7 @@ var InsuranceCount = function($scope,$routeParams,apiService )
 			
 			$scope.input.i_maximum =  Math.floor($scope.input.pot/$scope.odds[$scope.input.outs]*10)/10;
 			$scope.input.percentage50 =  Math.floor($scope.input.pot/2/$scope.odds[$scope.input.outs]*10)/10;
-			$scope.input.amount = $scope.input.i_maximum;
+			// $scope.input.amount = $scope.input.i_maximum;
 		}
 	});
 	
