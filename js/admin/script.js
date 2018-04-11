@@ -747,11 +747,12 @@ var loginCtrl = function($scope, $cookies, apiService)
 				{
 					$scope.sess = r.data.body.sess;
 					$cookies.put('admin_sess', $scope.sess, { path: '/'});
-					var obj =
-					{
-						'message':'welcome',
-					};
-					dialog(obj, $scope.loginDone);
+					$scope.loginDone();
+					// var obj =
+					// {
+						// 'message':'welcome',
+					// };
+					// dialog(obj, $scope.loginDone);
 				}else
 				{
 					var obj =
