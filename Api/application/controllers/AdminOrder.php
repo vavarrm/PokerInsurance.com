@@ -163,28 +163,28 @@ class AdminOrder extends CI_Controller {
 			
 			if($total>0)
 			{
-				$row= $this->order->getCheckOutByDay();
-				$smstex =sprintf("Insurance Income  Total %s \n %s to %s", $row['income'], $row['start'] , $row['end'] );
+				// $row= $this->order->getCheckOutByDay();
+				// $smstex =sprintf("Insurance Income  Total %s \n %s to %s", $row['income'], $row['start'] , $row['end'] );
 				// $smstex = urlencode($smstex);
-				$gsm="85516995372;85512321402;85517684220;85511923080";
-				$url="http://client.mekongsms.com/api/postsms.aspx";
-				$post = array(
-					'username'	=>'tsai_sms@smartmkn',
-					'pass'		=>md5('3xxkdkj@c'),
-					'cd'		=>'Cust001',
-					'sender'	=>"Sihalive",
-					'smstext'	=>$smstex,
-					'isflash'	=>0,
-					'gsm'		=>$gsm,
-				);
-				$ch = curl_init();
-				@curl_setopt($ch, CURLOPT_URL, $url);
-				@curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
-				@curl_setopt($ch, CURLOPT_POST, true);
-				@curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post)); 
-				@curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
-				@curl_exec($ch); 
-				@curl_close($ch);
+				// $gsm="85516995372;85512321402;85517684220;85511923080";
+				// $url="http://client.mekongsms.com/api/postsms.aspx";
+				// $post = array(
+					// 'username'	=>'tsai_sms@smartmkn',
+					// 'pass'		=>md5('3xxkdkj@c'),
+					// 'cd'		=>'Cust001',
+					// 'sender'	=>"Sihalive",
+					// 'smstext'	=>$smstex,
+					// 'isflash'	=>0,
+					// 'gsm'		=>$gsm,
+				// );
+				// $ch = curl_init();
+				// @curl_setopt($ch, CURLOPT_URL, $url);
+				// @curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+				// @curl_setopt($ch, CURLOPT_POST, true);
+				// @curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post)); 
+				// @curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1);
+				// @curl_exec($ch); 
+				// @curl_close($ch);
 			}
 			$output['message']='checkOut total:'.$total;
 		}catch(MyException $e)
